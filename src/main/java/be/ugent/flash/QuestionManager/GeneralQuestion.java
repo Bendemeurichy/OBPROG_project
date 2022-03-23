@@ -16,6 +16,5 @@ public abstract class GeneralQuestion {
     public int getId(){
         return question.question_id();
     }
-
-    public 
+    
 }
