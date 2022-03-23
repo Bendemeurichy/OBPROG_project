@@ -2,9 +2,9 @@ package be.ugent.flash.jdbc;
 
 public interface DataAccesContext extends AutoCloseable {
 
-    QuestionsdDAO getCardDAO();
+    QuestionDAO getQuestionDAO();
 
-    PartsDAO getPartsDAO();
+    PartDAO getPartDAO();
 
     void close() throws DataAccesException;
 }

@@ -1,33 +1,34 @@
 package be.ugent.flash.jdbc;
 
+import javafx.scene.chart.PieChart;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JDBCDataAccesContext implements DataAccesContext {
+
     private final Connection connection;
 
-    public JDBCDataAccesContext(Connection connection) {
+    public JDBCDataAccesContext(Connection connection){
         this.connection=connection;
     }
 
     @Override
-    public QuestionsdDAO getCardDAO() {
-        return new QuestionsdDAO(connection);
+    public QuestionDAO getQuestionDAO() {
+        return new JDBCQuestionDAO(connection);
     }
 
     @Override
-    public PartsDAO getPartsDAO() {
-        return new PartsDAO(connection);
+    public PartDAO getPartDAO() {
+        return new JDBCPartDAO(connection);
     }
 
     @Override
-    public void close() throws DataAccesException{
+    public void close() throws DataAccesException {
         try{
             connection.close();
-        } catch (SQLException ex){
-            throw new DataAccesException("Could not close connection",ex);
+    } catch(SQLException e){
+            throw new DataAccesException("Could not close connection",e);
         }
     }
 }
-
-//https://github.ugent.be/kcoolsae/ObjProg/tree/master/src/main/java/be/ugent/objprog/contacts/jdbc
