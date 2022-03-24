@@ -1,11 +1,12 @@
 package be.ugent.flash.QuestionManager;
 
 import be.ugent.flash.jdbc.Question;
+import javafx.scene.image.Image;
+import java.io.ByteArrayInputStream;
 
 public abstract class GeneralQuestion {
-    private Question question;
-
-    public GeneralQuestion(Question question){
+    protected final Question question;
+    protected GeneralQuestion(Question question){
         this.question=question;
     }
 
@@ -16,5 +17,13 @@ public abstract class GeneralQuestion {
     public int getId(){
         return question.question_id();
     }
-    
+
+    public Image getImage() {
+        return new Image(new ByteArrayInputStream(question.image_part())); }
+
+    public String getAnswer() {
+        return question.correct_answer(); }
+
+    abstract boolean checkAnswer(String answer);
+
 }

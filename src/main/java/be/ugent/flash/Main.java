@@ -1,11 +1,12 @@
 package be.ugent.flash;
 
+import be.ugent.flash.QuestionManager.QuestionManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.util.List;
-
+import be.ugent.flash.jdbc.*;
 /**
  * Hoofdprogramma.
  * test
@@ -47,6 +48,8 @@ public class Main extends Application {
             // start de beheersinterface
             // TODO aanvullen
         } else {
+            DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider(dbName);
+            new QuestionManager(dataAccesProvider).run();
             // start de viewer
             // TODO aanvullen
         }
