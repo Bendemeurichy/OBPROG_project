@@ -1,4 +1,4 @@
-package be.ugent.flash.QuestionManager;
+package be.ugent.flash.SceneSwitcher.questionDataManager;
 
 import be.ugent.flash.jdbc.Question;
 import javafx.scene.image.Image;
@@ -14,6 +14,10 @@ public abstract class GeneralQuestion {
         return question.title();
     }
 
+    public String getText() {
+        return question.text_part();
+    }
+
     public int getId(){
         return question.question_id();
     }
@@ -24,6 +28,7 @@ public abstract class GeneralQuestion {
     public String getAnswer() {
         return question.correct_answer(); }
 
-    abstract boolean checkAnswer(String answer);
+    public abstract boolean checkAnswer(String answer);
+
 
 }

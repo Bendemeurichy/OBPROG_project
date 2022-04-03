@@ -1,7 +1,5 @@
 package be.ugent.flash.jdbc;
 
-import javafx.scene.chart.PieChart;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 

@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
 
 public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
 
@@ -14,15 +13,31 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
     }
 
     @Override
-    public Queue<Parts> specificPart(int id) throws DataAccesException {
+    public ArrayList<Parts> specificPart(int id) throws DataAccesException {
+        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
+            ps.setInt(1, id);
+            ResultSet data= ps.executeQuery();
+
+            ArrayList<Parts> parts=new ArrayList<>();
+
+            while(data.next()){
+                parts.add(new Parts(data.getInt(1),data.getInt(2),data.getString(3)));
+            }
+            return parts;
+        }catch (SQLException e){
+            throw new DataAccesException("Could not find parts for question with id: "+id,e);
+        }
+    }
+
+    public ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
 
-            Queue<Parts> parts=new LinkedList<>();
+            ArrayList<ImageParts> parts=new ArrayList<>();
 
             while(data.next()){
-                parts.add(new Parts(data.getInt(1),data.getInt(2),data.getString(3)));
+                parts.add(new ImageParts(data.getInt(1),data.getInt(2),data.getBytes(3)));
             }
             return parts;
         }catch (SQLException e){

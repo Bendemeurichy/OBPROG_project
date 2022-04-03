@@ -1,8 +1,11 @@
 package be.ugent.flash;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
+import be.ugent.flash.SceneSwitcher.QuestionController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -18,7 +21,7 @@ public class Main extends Application {
     //
     // Je moet hoe dan ook de methode start nog aanpassen.
 
-    private String dbName; // null wanneer we de beheersinterface willen starten
+    private String dbName= "jdbc:sqlite:etc/example.sqlite"; // null wanneer we de beheersinterface willen starten
 
     /**
      * Toont een foutbericht en stopt het programma
@@ -34,7 +37,7 @@ public class Main extends Application {
         List<String> argList = getParameters().getRaw();
         int size = argList.size();
         if (size == 0) {
-            this.dbName = null;
+            //this.dbName = null;
         } else if (size == 1) {
             this.dbName = argList.get(0);
         } else {
@@ -44,15 +47,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if (dbName == null) {
+        //if (dbName == null) {
             // start de beheersinterface
             // TODO aanvullen
-        } else {
+        //} else {
             DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider(dbName);
-            new QuestionManager(dataAccesProvider).run();
+            FXMLLoader loader=new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
+            QuestionManager questionManager= new QuestionManager(dataAccesProvider,stage);
+            stage.setTitle("Viewer");
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+            questionManager.start();
+
             // start de viewer
             // TODO aanvullen
-        }
+        //}
     }
 
     public static void main(String[] args) {
