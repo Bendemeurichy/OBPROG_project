@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox>
+         <children>
+            <TextFlow fx:id="textPart" prefHeight="138.0" prefWidth="334.0" />
+            <ImageView fx:id="photoPart" fitHeight="138.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox>
+               <children>
+                  <VBox fx:id="buttons" prefHeight="200" prefWidth="50" />
+                  <VBox fx:id="answers" prefHeight="200" prefWidth="300" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
