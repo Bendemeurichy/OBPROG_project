@@ -9,7 +9,6 @@ import be.ugent.flash.jdbc.Question;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class QuestionManager {
         questions = dataAccesProvider.getDataAccessContext().getQuestionDAO().allQuestionData();
     }
 
-    public void start() throws IOException, DataAccesException {
+    public void start(){
         this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this);
         sceneManager.changeScene(currentQuestion.getfxml(),currentQuestion,currentQuestion.getTitle());
     }
