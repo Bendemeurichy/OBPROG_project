@@ -5,7 +5,7 @@ import be.ugent.flash.jdbc.Question;
 
 public class OpenIFactory implements QuestionFactory{
     @Override
-    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager) {
+    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
         return null;
     }
 }

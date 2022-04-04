@@ -30,7 +30,7 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
     }
 
     public ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException {
-        try (PreparedStatement ps = prepare("SELECT part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
+        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
 

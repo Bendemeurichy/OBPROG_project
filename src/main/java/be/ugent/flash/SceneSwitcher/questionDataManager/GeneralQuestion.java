@@ -4,9 +4,9 @@ import be.ugent.flash.jdbc.Question;
 import javafx.scene.image.Image;
 import java.io.ByteArrayInputStream;
 
-public abstract class GeneralQuestion {
-    protected final Question question;
-    protected GeneralQuestion(Question question){
+public class GeneralQuestion {
+    private final Question question;
+    public GeneralQuestion(Question question){
         this.question=question;
     }
 
@@ -28,7 +28,10 @@ public abstract class GeneralQuestion {
     public String getAnswer() {
         return question.correct_answer(); }
 
-    public abstract boolean checkAnswer(String answer);
+    public boolean checkAnswer(String answer) {
+        return answer.equals(getAnswer());
+    }
+
 
 
 }

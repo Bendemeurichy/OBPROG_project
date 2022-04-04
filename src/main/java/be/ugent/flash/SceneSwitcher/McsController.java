@@ -1,7 +1,7 @@
 package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
-import be.ugent.flash.SceneSwitcher.questionDataManager.MC;
+import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
@@ -20,20 +20,15 @@ public class McsController extends QuestionController{
 
     private final ArrayList<Parts> parts;
 
-    public McsController(Question question, QuestionManager manager) throws DataAccesException {
-        this.questionData=new MC(question);
+    public McsController(Question question, QuestionManager manager,boolean prevCorrect) throws DataAccesException {
+        this.prevCorrect=prevCorrect;
+        this.questionData=new GeneralQuestion(question);
         this.manager=manager;
         this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
     }
 
     public void initialize() {
-        try {
-            photoPart.setVisible(true);
-            photoPart.setImage(questionData.getImage());
-            } catch(NullPointerException e){
-            photoPart.setVisible(false);
-        }
-        textPart.getChildren().add(new Text(questionData.getText()));
+        super.initialize();
         for(int i=0;i< parts.size();i++){
             String ascii= ""+(char) (65+i);
             Button temp= new Button(ascii);

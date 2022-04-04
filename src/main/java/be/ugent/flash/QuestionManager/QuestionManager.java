@@ -29,7 +29,7 @@ public class QuestionManager {
     }
 
     public void start(){
-        this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this);
+        this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, true);
         sceneManager.changeScene(currentQuestion.getfxml(),currentQuestion,currentQuestion.getTitle());
     }
 
@@ -45,7 +45,7 @@ public class QuestionManager {
             Platform.exit();
         }
 
-        currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this);
+        currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, currentQuestion.getCorrect());
         sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
 
     }

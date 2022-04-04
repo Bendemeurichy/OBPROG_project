@@ -7,9 +7,9 @@ import be.ugent.flash.jdbc.Question;
 
 public class MccFactory implements QuestionFactory{
     @Override
-    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager) {
+    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
         try {
-            return new MccController(question,questionManager);
+            return new MccController(question,questionManager,prevCorrect);
         } catch (DataAccesException e) {
             e.printStackTrace();
         }
