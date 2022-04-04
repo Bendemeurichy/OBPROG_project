@@ -1,7 +1,7 @@
-package be.ugent.flash.SceneSwitcher.questionDataManager;
+package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
-import be.ugent.flash.SceneSwitcher.QuestionController;
+import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
@@ -47,6 +47,7 @@ public class MrController extends QuestionController {
         for(CheckBox box: checkBoxes){
             answer.append(box.isSelected() ? "T" : "F");
         }
+        System.out.println(answer);
         this.correct=questionData.checkAnswer(String.valueOf(answer));
         manager.next();
     }
