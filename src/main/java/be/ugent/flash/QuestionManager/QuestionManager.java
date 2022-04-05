@@ -35,19 +35,21 @@ public class QuestionManager {
 
     public void next() {
         Question prev=questions.remove(0);
-
-        //voeg vraag achter in de rij toe indien fout
-        if(! currentQuestion.getCorrect()){
-            questions.add(prev);
-        }
         //stop programma als er geen vragen meer zijn
         if(questions.isEmpty()){
             Platform.exit();
+        }else {
+
+
+            //voeg vraag achter in de rij toe indien fout
+            if (!currentQuestion.getCorrect()){
+                questions.add(prev);
+            }
+            currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, currentQuestion.getCorrect());
+            sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
+
+
         }
-
-        currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, currentQuestion.getCorrect());
-        sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
-
     }
 
 

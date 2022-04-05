@@ -47,7 +47,6 @@ public class MrController extends QuestionController {
         for(CheckBox box: checkBoxes){
             answer.append(box.isSelected() ? "T" : "F");
         }
-        System.out.println(answer);
         this.correct=questionData.checkAnswer(String.valueOf(answer));
         manager.next();
     }
