@@ -3,44 +3,43 @@ package be.ugent.flash.SceneSwitcher;
 import be.ugent.flash.QuestionManager.QuestionManager;
 import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import be.ugent.flash.jdbc.DataAccesException;
-import be.ugent.flash.jdbc.Parts;
+import be.ugent.flash.jdbc.ImageParts;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class McsController extends QuestionController{
+public class MciController extends QuestionController{
     @FXML
-    public VBox answers;
-    public VBox buttons;
+    public HBox buttons;
 
-    private final ArrayList<Parts> parts;
+    private final ArrayList<ImageParts> parts;
 
-    public McsController(Question question, QuestionManager manager,boolean prevCorrect) throws DataAccesException {
+    public MciController(Question question, QuestionManager questionManager,boolean prevCorrect) throws DataAccesException {
         this.prevCorrect=prevCorrect;
+        this.manager=questionManager;
         this.questionData=new GeneralQuestion(question);
-        this.manager=manager;
-        this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+        this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificImagepart(questionData.getId());
     }
 
-    public void initialize() {
+    public void initialize(){
         super.initialize();
-        for(int i=0;i< parts.size();i++){
-            String ascii= ""+(char) (65+i);
-            Button temp= new Button(ascii);
+        for(int i=0; i<parts.size();i++){
+            ImageView answer= new ImageView(new Image(new ByteArrayInputStream(parts.get(i).part())));
+            Button temp=new Button();
             temp.setOnAction(this::answer);
             temp.setUserData(i);
+            temp.setGraphic(answer);
             buttons.getChildren().add(temp);
-            answers.getChildren().add(new TextFlow(new Text(parts.get(i).part())));
         }
-
     }
 
-    @FXML
     public void answer(ActionEvent event){
         Button called=(Button)event.getSource();
         this.correct=questionData.checkAnswer(""+called.getUserData());
@@ -50,6 +49,6 @@ public class McsController extends QuestionController{
 
     @Override
     public String getfxml() {
-        return "Mcs.fxml";
+        return "Mci.fxml";
     }
 }

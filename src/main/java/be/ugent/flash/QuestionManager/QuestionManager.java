@@ -9,7 +9,6 @@ import be.ugent.flash.jdbc.Question;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -29,26 +28,28 @@ public class QuestionManager {
         questions = dataAccesProvider.getDataAccessContext().getQuestionDAO().allQuestionData();
     }
 
-    public void start() throws IOException, DataAccesException {
-        this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this);
+    public void start(){
+        this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, true);
         sceneManager.changeScene(currentQuestion.getfxml(),currentQuestion,currentQuestion.getTitle());
     }
 
     public void next() {
         Question prev=questions.remove(0);
-
-        //voeg vraag achter in de rij toe indien fout
-        if(! currentQuestion.getCorrect()){
-            questions.add(prev);
-        }
         //stop programma als er geen vragen meer zijn
         if(questions.isEmpty()){
             Platform.exit();
+        }else {
+
+
+            //voeg vraag achter in de rij toe indien fout
+            if (!currentQuestion.getCorrect()){
+                questions.add(prev);
+            }
+            currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, currentQuestion.getCorrect());
+            sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
+
+
         }
-
-        currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this);
-        sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
-
     }
 
 
