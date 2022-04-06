@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -8,17 +7,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400" prefWidth="650.0" stylesheets="@../../../../general%20Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox fx:id="question" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="wrongAnswer" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="608.0" text="De vorige vraag was fout." textAlignment="CENTER">
-               <padding>
-                  <Insets left="200.0" right="200.0" />
-               </padding>
-            </Label>
-            <TextFlow fx:id="textPart" prefHeight="100.0" prefWidth="600.0" />
-            <ImageView fx:id="photoPart" fitHeight="128.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="wrongAnswer" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="608.0" text="De vorige vraag was fout." textAlignment="CENTER" />
+            <TextFlow fx:id="textPart" prefHeight="50.0" prefWidth="450.0" />
+            <ImageView fx:id="photoPart" fitHeight="178.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" />
             <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
          </children>
       </VBox>

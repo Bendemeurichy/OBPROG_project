@@ -29,7 +29,9 @@ public class OpenController extends QuestionController{
     public void answer(KeyEvent event){
         if(answer.getText().equals("")){
             warning.setVisible(true);
+            this.question.getStyleClass().add("warning");
         } else{
+            this.question.getStyleClass().remove("warning");
             warning.setVisible(false);
             if (event.getCode()== KeyCode.ENTER){
                 this.correct=questionData.checkAnswer(answer.getText());

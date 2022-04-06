@@ -8,15 +8,15 @@ import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+
 import java.util.ArrayList;
 
 public class McsController extends QuestionController{
     @FXML
-    public VBox answers;
-    public VBox buttons;
+    public GridPane answers;
 
     private final ArrayList<Parts> parts;
 
@@ -33,9 +33,9 @@ public class McsController extends QuestionController{
             String ascii= ""+(char) (65+i);
             Button temp= new Button(ascii);
             temp.setOnAction(this::answer);
-            temp.setUserData(i+1);
-            buttons.getChildren().add(temp);
-            answers.getChildren().add(new TextFlow(new Text(parts.get(i).part())));
+            temp.setUserData(i);
+            answers.add(temp,0,i);
+            answers.add(new TextFlow(new Text(parts.get(i).part())),1,i);
         }
 
     }

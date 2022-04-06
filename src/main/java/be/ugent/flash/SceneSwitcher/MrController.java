@@ -9,7 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -17,9 +17,8 @@ import java.util.ArrayList;
 
 public class MrController extends QuestionController {
     @FXML
-    public VBox answers;
-    public VBox boxes;
-    public Button next;
+    public GridPane answers;
+    public Button next=new Button("Ok");
 
     private ArrayList<CheckBox> checkBoxes= new ArrayList<>();
     private final ArrayList<Parts> parts;
@@ -33,12 +32,13 @@ public class MrController extends QuestionController {
 
     public void initialize(){
         super.initialize();
-        for (Parts part : parts) {
-            checkBoxes.add(new CheckBox());
-
-            answers.getChildren().add(new TextFlow(new Text(part.part())));
+        for (int i=0;i< parts.size();i++) {
+            CheckBox checkBox=new CheckBox();
+            checkBoxes.add(checkBox);
+            answers.add(new TextFlow(new Text(parts.get(i).part())),1,i);
+            answers.add(checkBox,0,i);
         }
-        boxes.getChildren().addAll(checkBoxes);
+        answers.add(next,2,answers.getRowCount()-1);
         next.setOnAction(this::answer);
     }
 

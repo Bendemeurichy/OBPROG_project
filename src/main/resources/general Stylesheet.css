@@ -1,0 +1,90 @@
+BorderPane {
+    -fx-background-color: rgba(248, 198, 93, 0.65);
+    -fx-padding: 15;
+}
+
+GridPane {
+    -fx-alignment: center left;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-vgap: 10;
+}
+
+VBox{
+    -fx-spacing: 10;
+    -fx-padding: 10;
+    -fx-alignment: center;
+
+}
+
+HBox {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+
+.button {
+    -fx-background-color: rgba(255, 177, 0, 0.82);
+    -fx-background-radius: 10;
+    -fx-background-size: 10;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #494949;
+    -fx-border-width: 2;
+    -fx-border-color: #494949;
+    -fx-border-radius: 5;
+    -fx-font-family: Bahnschrift;
+}
+.button:pressed{
+    -fx-background-color: rgb(159, 107, 21);
+    -fx-opacity: 5;
+}
+
+.imagebutton {
+    -fx-background-width: 0;
+    -fx-background-size: 0;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+}
+
+TextFlow {
+    -fx-font-size: 16;
+    -fx-font-family: Bahnschrift;
+    -fx-text-fill: rgb(73, 73, 73);
+}
+
+.check-box{
+    -fx-background-radius: 10;
+    -fx-border-color: rgb(73, 73, 73);
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+}
+.check-box:selected .box{
+    -fx-background-color: rgba(255,177,0,0.82);
+}
+.check-box:selected .mark{
+    -fx-background-color:rgb(73, 73, 73);
+}
+.label{
+    -fx-font-size: 14;
+    -fx-font-family: Bahnschrift;
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+
+.warning .text-field{
+    -fx-text-fill: red;
+    -fx-border-color: red;
+    -fx-border-width: 2;
+}
+
+.text-field{
+    -fx-border-width: 2;
+    -fx-border-color:rgb(73, 73, 73);
+    -fx-border-radius: 5;
+    -fx-background-radius:10 ;
+    -fx-font-family: Bahnschrift;
+    -fx-font-size: 16;
+    -fx-text-fill:rgb(73, 73, 73) ;
+}

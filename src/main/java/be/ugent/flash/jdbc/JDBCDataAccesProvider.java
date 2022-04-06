@@ -15,7 +15,7 @@ public class JDBCDataAccesProvider implements DataAccesProvider{
         try{
             return new JDBCDataAccesContext(DriverManager.getConnection(database));
         } catch(SQLException e){
-            throw new DataAccesException("Could not create DAC",e);
+            throw new DataAccesException("Databank bestaat niet of kan niet geopend worden",e);
         }
     }
 }

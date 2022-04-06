@@ -25,7 +25,7 @@ public class Main extends Application {
 
     /**
      * Toont een foutbericht en stopt het programma
-     */
+     **/
     private void error(String bericht) {
         // Uit cursusbroncode (ArgsMain)
         System.err.println("*ERROR* -- " + bericht);
@@ -55,6 +55,7 @@ public class Main extends Application {
             FXMLLoader loader=new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
             QuestionManager questionManager= new QuestionManager(dataAccesProvider,stage);
             stage.setTitle("Viewer");
+            stage.setResizable(false);
             stage.setScene(new Scene(loader.load()));
             stage.show();
             questionManager.start();

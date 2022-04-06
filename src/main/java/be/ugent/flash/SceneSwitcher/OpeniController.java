@@ -14,10 +14,11 @@ public class OpeniController extends OpenController{
 
     public void answer(KeyEvent event){
         super.warning.setText("Antwoord moet geheel getal zijn");
-        if(answer.getText().matches("[0-9]*[^0-9]+[0-9]*")){
-
+        if(! answer.getText().matches("^-?[0-9]+$")){
+            this.question.getStyleClass().add("warning");
             warning.setVisible(true);
         } else {
+            this.question.getStyleClass().remove("warning");
             warning.setVisible(false);
             if (event.getCode()== KeyCode.ENTER){
                 this.correct=questionData.checkAnswer(answer.getText());
