@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox fx:id="question" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="wrongAnswer" alignment="CENTER" prefHeight="17.0" prefWidth="607.0" text="De vorige vraag was fout." />
             <TextFlow fx:id="textPart" prefHeight="108.0" prefWidth="600.0" />

@@ -33,7 +33,7 @@ public class McsController extends QuestionController{
             String ascii= ""+(char) (65+i);
             Button temp= new Button(ascii);
             temp.setOnAction(this::answer);
-            temp.setUserData(i);
+            temp.setUserData(i+1);
             buttons.getChildren().add(temp);
             answers.getChildren().add(new TextFlow(new Text(parts.get(i).part())));
         }

@@ -36,7 +36,7 @@ public class QuestionManager {
     public void next() {
         Question prev=questions.remove(0);
         //stop programma als er geen vragen meer zijn
-        if(questions.isEmpty()){
+        if(questions.isEmpty() && currentQuestion.getCorrect()){
             Platform.exit();
         }else {
 

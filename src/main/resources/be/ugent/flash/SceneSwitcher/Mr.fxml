@@ -10,15 +10,14 @@
 
 <BorderPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
-         <Label fx:id="wrongAnswer" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="501.0"
-                text="De vorige vraag was fout." textAlignment="CENTER"/>
-         <TextFlow fx:id="textPart" prefHeight="123.0" prefWidth="500.0"/>
-         <ImageView fx:id="photoPart" fitHeight="132.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true"/>
+      <VBox fx:id="question" prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <Label fx:id="wrongAnswer" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="501.0" text="De vorige vraag was fout." textAlignment="CENTER" />
+         <TextFlow fx:id="textPart" prefHeight="123.0" prefWidth="500.0" />
+         <ImageView fx:id="photoPart" fitHeight="132.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true" />
          <HBox prefHeight="100.0" prefWidth="200.0">
-            <VBox fx:id="boxes" prefHeight="200.0" prefWidth="100.0"/>
-            <VBox fx:id="answers" prefHeight="200.0" prefWidth="100.0"/>
-            <Button fx:id="next" mnemonicParsing="false" text="Ok"/>
+            <VBox fx:id="boxes" prefHeight="200.0" prefWidth="100.0" />
+            <VBox fx:id="answers" prefHeight="200.0" prefWidth="100.0" />
+            <Button fx:id="next" mnemonicParsing="false" text="Ok" />
          </HBox>
       </VBox>
    </center>

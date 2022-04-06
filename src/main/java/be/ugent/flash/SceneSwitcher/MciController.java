@@ -34,7 +34,7 @@ public class MciController extends QuestionController{
             ImageView answer= new ImageView(new Image(new ByteArrayInputStream(parts.get(i).part())));
             Button temp=new Button();
             temp.setOnAction(this::answer);
-            temp.setUserData(i);
+            temp.setUserData(i+1);
             temp.setGraphic(answer);
             buttons.getChildren().add(temp);
         }

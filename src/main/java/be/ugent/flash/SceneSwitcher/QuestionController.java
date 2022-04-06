@@ -5,6 +5,7 @@ import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -14,6 +15,7 @@ public abstract class QuestionController {
     public Label wrongAnswer;
     public ImageView photoPart;
     public TextFlow textPart;
+    public VBox question;
 
 
     protected GeneralQuestion questionData;
@@ -26,10 +28,9 @@ public abstract class QuestionController {
     public void initialize(){
         wrongAnswer.setVisible(! prevCorrect);
         try {
-            photoPart.setVisible(true);
             photoPart.setImage(questionData.getImage());
         } catch(NullPointerException e){
-            photoPart.setVisible(false);
+            question.getChildren().remove(photoPart);
         }
         textPart.getChildren().add(new Text(questionData.getText()));
     }

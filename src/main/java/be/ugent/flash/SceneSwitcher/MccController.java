@@ -30,7 +30,7 @@ public class MccController extends QuestionController{
         for(int i=0;i< parts.size();i++){
             Button temp= new Button(parts.get(i).part());
             temp.setOnAction(this::answer);
-            temp.setUserData(i);
+            temp.setUserData(i+1);
             buttons.getChildren().add(temp);
         }
     }
