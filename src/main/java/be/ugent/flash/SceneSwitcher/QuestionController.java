@@ -44,5 +44,4 @@ public abstract class QuestionController {
         return questionData.getTitle();
     }
 
-// keep a card to easily acces the data of the question+ all the fxml for a scene
 }

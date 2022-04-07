@@ -15,6 +15,7 @@ public abstract class AbstractMC extends QuestionController {
 
     public void answer(ActionEvent event){
         Button called=(Button)event.getSource();
+        //gebruik userdata om volgnummer op te vragen
         this.correct=questionData.checkAnswer(""+called.getUserData());
         manager.next();
 
