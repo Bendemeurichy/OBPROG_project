@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * klasse om van scene te wisselen en title van applicatie aan te passen
+ */
 public class SceneManager {
     private final Stage stage;
 

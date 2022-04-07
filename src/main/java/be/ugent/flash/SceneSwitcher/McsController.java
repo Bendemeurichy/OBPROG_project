@@ -1,11 +1,9 @@
 package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
-import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -14,16 +12,14 @@ import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
 
-public class McsController extends QuestionController{
+public class McsController extends AbstractMC{
     @FXML
     public GridPane answers;
 
     private final ArrayList<Parts> parts;
 
-    public McsController(Question question, QuestionManager manager,boolean prevCorrect) throws DataAccesException {
-        this.prevCorrect=prevCorrect;
-        this.questionData=new GeneralQuestion(question);
-        this.manager=manager;
+    public McsController(Question question, QuestionManager questionManager,boolean prevCorrect) throws DataAccesException {
+        super(question, questionManager, prevCorrect);
         this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
     }
 
@@ -37,14 +33,6 @@ public class McsController extends QuestionController{
             answers.add(temp,0,i);
             answers.add(new TextFlow(new Text(parts.get(i).part())),1,i);
         }
-
-    }
-
-    @FXML
-    public void answer(ActionEvent event){
-        Button called=(Button)event.getSource();
-        this.correct=questionData.checkAnswer(""+called.getUserData());
-        manager.next();
 
     }
 

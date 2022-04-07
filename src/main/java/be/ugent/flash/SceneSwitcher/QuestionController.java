@@ -9,7 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-//algemene controllerklasse voor alle flashcards
+/**
+ * algemene controllerklasse voor alle flashcards.
+ * zorgt voor fxml en het checken van antwoorden
+ */
 public abstract class QuestionController {
     @FXML
     public Label wrongAnswer;

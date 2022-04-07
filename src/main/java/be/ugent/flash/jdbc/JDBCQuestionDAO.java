@@ -11,6 +11,7 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         super(connection);
     }
 
+    //Vraag alle algemene data op van de vragen uit de databank
     @Override
     public ArrayList<Question> allQuestionData() throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id, title, text_part, image_part, correct_answer, " +
@@ -31,13 +32,13 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         }
     }
 
+    //retrieve data from a question with a specific question id
     @Override
     public Question specificQuestion(int id) throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id, title, text_part, image_part, correct_answer," +
                 " question_type FROM questions WHERE question_id = ?")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
-
 
             return new Question(data.getInt(1),data.getString(2),data.getString(3),
                     data.getBytes(4),data.getString(6),data.getString(5));

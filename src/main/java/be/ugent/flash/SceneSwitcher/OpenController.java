@@ -26,6 +26,7 @@ public class OpenController extends QuestionController{
         warning.setVisible(false);
     }
 
+    //de gepaste waarschuwing komt op indien de tekst in het textfield niet is toegelaten
     public void answer(KeyEvent event){
         if(answer.getText().equals("")){
             warning.setVisible(true);
