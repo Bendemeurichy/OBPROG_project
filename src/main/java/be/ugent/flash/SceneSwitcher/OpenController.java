@@ -11,7 +11,7 @@ import javafx.scene.input.KeyEvent;
 
 public class OpenController extends QuestionController{
     @FXML
-    public TextField answer;
+    public TextField answerField;
     public Label warning;
 
     public OpenController(Question question, QuestionManager manager,boolean prevCorrect){
@@ -22,20 +22,20 @@ public class OpenController extends QuestionController{
 
     public void initialize(){
         super.initialize();
-        answer.setOnKeyReleased(this::answer);
+        answerField.setOnKeyReleased(this::answer);
         warning.setVisible(false);
     }
 
     //de gepaste waarschuwing komt op indien de tekst in het textfield niet is toegelaten
     public void answer(KeyEvent event){
-        if(answer.getText().equals("")){
+        if(answerField.getText().equals("")){
             warning.setVisible(true);
             this.question.getStyleClass().add("warning");
         } else{
             this.question.getStyleClass().remove("warning");
             warning.setVisible(false);
             if (event.getCode()== KeyCode.ENTER){
-                this.correct=questionData.checkAnswer(answer.getText());
+                this.correct=questionData.checkAnswer(answerField.getText());
                 manager.next();
             }
         }
