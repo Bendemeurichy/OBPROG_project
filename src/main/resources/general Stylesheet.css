@@ -77,6 +77,7 @@ TextFlow {
     -fx-text-fill: red;
     -fx-border-color: red;
     -fx-border-width: 2;
+    -fx-background-color: rgb(255, 196, 196);
 }
 
 .text-field{

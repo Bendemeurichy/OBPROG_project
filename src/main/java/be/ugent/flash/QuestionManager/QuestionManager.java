@@ -44,14 +44,12 @@ public class QuestionManager {
             Platform.exit();
         }else {
 
-
             //voeg vraag achter in de rij toe indien fout
             if (!currentQuestion.getCorrect()){
                 questions.add(prev);
             }
             currentQuestion=factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, currentQuestion.getCorrect());
             sceneManager.changeScene(currentQuestion.getfxml(), currentQuestion, currentQuestion.getTitle());
-
 
         }
     }
