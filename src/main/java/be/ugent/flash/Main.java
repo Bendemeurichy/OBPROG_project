@@ -51,7 +51,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         if (dbName == null) {
-            // start de beheersinterface
+            // start de beheersinterface.
             // TODO aanvullen
         } else {
             DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider(dbName);
