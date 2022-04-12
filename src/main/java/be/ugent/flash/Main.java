@@ -24,7 +24,7 @@ public class Main extends Application {
     //
     // Je moet hoe dan ook de methode start nog aanpassen.
 
-    private String dbName= "jdbc:sqlite:etc/example.sqlite"; // null wanneer we de beheersinterface willen starten
+    private String dbName; // null wanneer we de beheersinterface willen starten
 
     /**
      * Toont een foutbericht en stopt het programma
