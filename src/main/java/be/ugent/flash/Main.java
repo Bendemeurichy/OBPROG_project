@@ -54,7 +54,7 @@ public class Main extends Application {
             // start de beheersinterface.
             // TODO aanvullen
         } else {
-            DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider(dbName);
+            DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider("jdbc:sqlite:"+dbName);
             FXMLLoader loader=new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
             QuestionManager questionManager= new QuestionManager(dataAccesProvider,stage);
             stage.setTitle("Viewer");
