@@ -1,9 +1,12 @@
 package be.ugent.flash.SceneSwitcher;
 
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
+import be.ugent.flash.jdbc.DataAccesException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -12,14 +15,14 @@ import java.io.IOException;
 public class SceneManager {
     private final Stage stage;
 
-    public SceneManager(Stage stage){
-        this.stage=stage;
+    public SceneManager(Stage stage) {
+        this.stage = stage;
     }
 
-    public void changeScene(String scene,QuestionController controller,String title) {
-        FXMLLoader fxmlLoader= new FXMLLoader(SceneManager.class.getResource(scene));
+    public void changeScene(String scene, QuestionController controller, String title) {
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(scene));
         fxmlLoader.setController(controller);
-        Scene card= null;
+        Scene card = null;
         try {
             card = new Scene(fxmlLoader.load());
         } catch (IOException e) {
@@ -27,6 +30,20 @@ public class SceneManager {
         }
         stage.setScene(card);
         stage.setTitle(title);
+        stage.show();
+    }
+    public void loadDB(File file){
+        FXMLLoader fxmlLoader= new FXMLLoader(BeheerdersinterfaceController.class.getResource("Beheerdersinterface.fxml"));
+
+        Scene scene;
+        try {
+            fxmlLoader.setController(new BeheerdersinterfaceController(file));
+            scene= new Scene(fxmlLoader.load());
+        } catch (IOException | DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setScene(scene);
+        stage.setTitle(file.getName());
         stage.show();
     }
 }

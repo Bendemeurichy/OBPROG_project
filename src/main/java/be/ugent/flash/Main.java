@@ -2,6 +2,7 @@ package be.ugent.flash;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
 import be.ugent.flash.SceneSwitcher.QuestionController;
+import be.ugent.flash.beheerdersinterface.MenuOpties;
 import be.ugent.flash.jdbc.DataAccesProvider;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import javafx.application.Application;
@@ -50,7 +51,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setResizable(false);
         if (dbName == null) {
+            FXMLLoader loader= new FXMLLoader((MenuOpties.class.getResource("BeginScherm.fxml")));
+            stage.setTitle("Flash: beheerdersinterface");
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
             // start de beheersinterface.
             // TODO aanvullen
         } else {
@@ -58,7 +64,6 @@ public class Main extends Application {
             FXMLLoader loader=new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
             QuestionManager questionManager= new QuestionManager(dataAccesProvider,stage);
             stage.setTitle("Viewer");
-            stage.setResizable(false);
             stage.setScene(new Scene(loader.load()));
             stage.show();
             questionManager.start();
