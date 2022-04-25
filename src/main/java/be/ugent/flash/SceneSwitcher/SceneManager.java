@@ -39,7 +39,7 @@ public class SceneManager {
         try {
             fxmlLoader.setController(new BeheerdersinterfaceController(file));
             scene= new Scene(fxmlLoader.load());
-        } catch (IOException | DataAccesException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         stage.setScene(scene);

@@ -56,6 +56,7 @@ public class Main extends Application {
             FXMLLoader loader= new FXMLLoader((MenuOpties.class.getResource("BeginScherm.fxml")));
             stage.setTitle("Flash: beheerdersinterface");
             stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
             stage.show();
             // start de beheersinterface.
             // TODO aanvullen
