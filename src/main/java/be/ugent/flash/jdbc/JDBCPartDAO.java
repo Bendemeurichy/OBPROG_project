@@ -44,14 +44,4 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             throw new DataAccesException("Could not find parts for question with id: "+id,e);
         }
     }
-
-    @Override
-    public void removeParts(int questionID) throws DataAccesException {
-        try (PreparedStatement ps = prepare("DELETE FROM parts WHERE question_id = ?")){
-            ps.setInt(1,questionID);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new DataAccesException("could not find parts for question with id " +questionID,e);
-        }
-    }
 }
