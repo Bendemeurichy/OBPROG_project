@@ -1,8 +1,7 @@
 package be.ugent.flash.beheerdersinterface;
 
-import be.ugent.flash.jdbc.DataAccesException;
-import be.ugent.flash.jdbc.JDBCDataAccesProvider;
-import be.ugent.flash.jdbc.Question;
+import be.ugent.flash.jdbc.*;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -47,6 +47,15 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         inhoud.setItems(questions);
         inhoud.getSelectionModel().selectedItemProperty().addListener(this::bewerk);
         remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
+        //TODO maak vbox listener om te updaten met tooninhoud
+    }
+
+    private void tooninhoud(Observable observable) {
+        System.out.println(observable.toString());
+        if (observable==null){  //als niks geselecteerd?
+            modifyQuestion.getChildren().clear();
+            modifyQuestion.getChildren().add(new Label("(geen vraag geselecteerd)"));
+        }
     }
 
     public void bewerk(ObservableValue<? extends Question> observable,Question oldvalue,Question newvalue ){
@@ -56,7 +65,17 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     public void addQuestion(ActionEvent event){}
 
-    public void removeQuestion(ActionEvent event){}
+    public void removeQuestion(ActionEvent event){
+        int questionID=inhoud.getSelectionModel().getSelectedItem().question_id();
+        try {
+            DataAccesContext dp=new JDBCDataAccesProvider("jdbc:sqlite:"+questiondb.getPath()).getDataAccessContext();
+            dp.getPartDAO().removeParts(questionID);
+            dp.getQuestionDAO().removeQuestion(questionID);
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+        initialize();
+    }
 
     public void save(){
         //update db

@@ -11,7 +11,7 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         super(connection);
     }
 
-    //Vraag alle algemene data op van de vragen uit de databank
+
     @Override
     public ArrayList<Question> allQuestionData() throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id, title, text_part, image_part, correct_answer, " +
@@ -32,7 +32,6 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         }
     }
 
-    //retrieve data from a question with a specific question id
     @Override
     public Question specificQuestion(int id) throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id, title, text_part, image_part, correct_answer," +
@@ -46,4 +45,15 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
             throw new DataAccesException("Could not find question with id: "+id,e);
         }
     }
-}
+
+    @Override
+    public void removeQuestion(int questionID) throws DataAccesException {
+        try (PreparedStatement ps = prepare("DELETE FROM questions WHERE question_id = ?")){
+            ps.setInt(1,questionID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccesException("could not find parts for question with id " +questionID,e);
+        }
+    }
+    }
+
