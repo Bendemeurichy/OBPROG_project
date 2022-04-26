@@ -9,4 +9,6 @@ public interface PartDAO {
 
     //vraag imageparts op van specifieke vraag
     ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException;
+
+    void removeParts(int questionId) throws DataAccesException;
 }

@@ -1,8 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
-import be.ugent.flash.jdbc.DataAccesException;
-import be.ugent.flash.jdbc.JDBCDataAccesProvider;
-import be.ugent.flash.jdbc.Question;
+import be.ugent.flash.jdbc.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -34,6 +33,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     public void initialize() {
+        modifyQuestion.getChildren().add(new Label("(Geen vraag gekozen)"));
         ObservableList<Question> questions;
         try {
             questions = FXCollections.observableArrayList(
@@ -56,7 +56,17 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     public void addQuestion(ActionEvent event){}
 
-    public void removeQuestion(ActionEvent event){}
+    public void removeQuestion(ActionEvent event){
+        int questionId=inhoud.getSelectionModel().getSelectedItem().question_id();
+        try{
+            DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:"+questiondb.getPath()).getDataAccessContext();
+            dp.getPartDAO().removeParts(questionId);
+            dp.getQuestionDAO().removeQuestion(questionId);
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+        initialize();
+    }
 
     public void save(){
         //update db

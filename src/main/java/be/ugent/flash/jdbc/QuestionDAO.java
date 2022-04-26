@@ -6,4 +6,6 @@ public interface QuestionDAO {
     ArrayList<Question> allQuestionData() throws DataAccesException;
 
     Question specificQuestion(int id) throws DataAccesException;
+
+    void removeQuestion(int questionId) throws DataAccesException;
 }
