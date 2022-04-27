@@ -15,7 +15,7 @@ public class MenuOpties {
     }
 
     public void nieuwDB(){
-        //Todo: open filechooser om nieuw bestand te open en wissel naar geopend bestand
+        //Todo: open filechooser om nieuw bestand te open en wissel naar geopend bestand: save dialog sqlite::name
     }
 
     public void openDB(){
