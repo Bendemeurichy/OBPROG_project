@@ -5,6 +5,7 @@ import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.GridPane;
 
 import java.io.File;
 
@@ -24,5 +25,9 @@ public class BeheerdersinterfaceCompanion {
     public void save(BeheerdersinterfaceController controller, Question vraag){
         //update db
         controller.initialize();
+    }
+
+    public void loadParts(GridPane parts, Question question){
+        //
     }
 }

@@ -4,6 +4,7 @@ import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,6 +35,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public HBox fotobuttons;
     public ImageView picturepart= new ImageView();
     public TableColumn<Question,String> titel;
+    public GridPane parts= new GridPane();
     public TableColumn<Question,String> type;
     public VBox modifyQuestion;
     public Button remove;
@@ -76,6 +78,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             modifyQuestion.getChildren().add(algemeen);
             algemeen.setHgap(10);
             algemeen.setVgap(10);
+            picturepart.setPreserveRatio(true);
+            picturepart.setFitHeight(100);
+            picturepart.setFitWidth(150);
 
             algemeen.add(new Label("Titel"), 0, 0);
             TextField titel = new TextField(observable.getValue().title());
@@ -101,9 +106,13 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 picturepart.setImage(new Image(new ByteArrayInputStream(observable.getValue().image_part())));
                 showimage();
             }
+            algemeen.getChildren().add(parts);
+            new BeheerdersinterfaceCompanion().loadParts(parts,observable.getValue());
+
+
             inhoud.disableProperty().bind(titel.textProperty().isNotEqualTo(observable.getValue().title()).
                     or(textpart.textProperty().isNotEqualTo(observable.getValue().text_part())).
-                    or(Bindings.createBooleanBinding(this::ischanged)));
+                    or(new SimpleBooleanProperty(ischanged())));
         } else {
             initialize();
         }
@@ -137,8 +146,6 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                     Image image=new Image(new ByteArrayInputStream(bytes));
                     picturepart.setUserData(bytes);
                     picturepart.setImage(image);
-                    picturepart.setFitHeight(100);
-                    picturepart.setFitWidth(150);
                     showimage();
 
                 } catch (IOException e) {
