@@ -26,7 +26,7 @@ public final class CreateTables {
     }
 
     /**
-     * Maak de tabel 'parts' aan. (Enkel SQLite.)
+     * Maak de tabel 'answers' aan. (Enkel SQLite.)
      */
     public static void createPartsTable(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {

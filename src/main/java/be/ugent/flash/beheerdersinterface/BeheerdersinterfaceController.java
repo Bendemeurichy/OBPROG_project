@@ -3,7 +3,6 @@ package be.ugent.flash.beheerdersinterface;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -35,7 +34,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public HBox fotobuttons;
     public ImageView picturepart= new ImageView();
     public TableColumn<Question,String> titel;
-    public GridPane parts= new GridPane();
+    public VBox answers = new VBox();
     public TableColumn<Question,String> type;
     public VBox modifyQuestion;
     public Button remove;
@@ -106,8 +105,8 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 picturepart.setImage(new Image(new ByteArrayInputStream(observable.getValue().image_part())));
                 showimage();
             }
-            algemeen.getChildren().add(parts);
-            new BeheerdersinterfaceCompanion().loadParts(parts,observable.getValue());
+            algemeen.getChildren().add(answers);
+            new BeheerdersinterfaceCompanion().loadParts(answers,observable.getValue());
 
 
             inhoud.disableProperty().bind(titel.textProperty().isNotEqualTo(observable.getValue().title()).

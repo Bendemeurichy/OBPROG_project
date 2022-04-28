@@ -54,7 +54,7 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
             ps.setInt(1,questionID);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DataAccesException("could not find parts for question with id " +questionID,e);
+            throw new DataAccesException("could not find answers for question with id " +questionID,e);
         }
     }
 

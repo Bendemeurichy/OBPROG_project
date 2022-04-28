@@ -14,7 +14,7 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
 
     @Override
     public ArrayList<Parts> specificPart(int id) throws DataAccesException {
-        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
+        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM answers WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
 
@@ -25,12 +25,12 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             }
             return parts;
         }catch (SQLException e){
-            throw new DataAccesException("Could not find parts for question with id: "+id,e);
+            throw new DataAccesException("Could not find answers for question with id: "+id,e);
         }
     }
 
     public ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException {
-        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
+        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM answers WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
 
@@ -41,17 +41,17 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             }
             return parts;
         }catch (SQLException e){
-            throw new DataAccesException("Could not find parts for question with id: "+id,e);
+            throw new DataAccesException("Could not find answers for question with id: "+id,e);
         }
     }
 
         @Override
         public void removeParts(int questionID) throws DataAccesException {
-            try (PreparedStatement ps = prepare("DELETE FROM parts WHERE question_id = ?")){
+            try (PreparedStatement ps = prepare("DELETE FROM answers WHERE question_id = ?")){
                 ps.setInt(1,questionID);
                 ps.executeUpdate();
             } catch (SQLException e) {
-                throw new DataAccesException("could not find parts for question with id " +questionID,e);
+                throw new DataAccesException("could not find answers for question with id " +questionID,e);
             }
         }
 
