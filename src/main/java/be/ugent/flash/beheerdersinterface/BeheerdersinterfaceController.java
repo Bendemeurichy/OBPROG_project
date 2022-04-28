@@ -3,9 +3,9 @@ package be.ugent.flash.beheerdersinterface;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,6 +40,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public Button remove;
     public GridPane algemeen=new GridPane();
     private final File questiondb;
+    private  Question currentquestion;
 
     private final Map<String,String> typemap= Map.of("mcs","Meerkeuze (standaard)","mcc","Meerkeuze (compact)",
             "mci","Meerkeuze (afbeeldingen)","mr","Meerantwoord","open","Open (tekst)","openi","Open (geheel)");
@@ -60,15 +61,17 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         titel.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().title()));
         type.setCellValueFactory(q -> new SimpleStringProperty(typemap.get(q.getValue().question_type())));
         inhoud.setItems(questions);
-        inhoud.getSelectionModel().selectedItemProperty().addListener(this::loadQuestion);
+        inhoud.getSelectionModel().selectedItemProperty().addListener(this::selectQuestion);
         remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
-        modifyQuestion.getChildren().clear();
-        modifyQuestion.getChildren().add(new Label("(geen vraag geselecteerd)"));
-        modifyQuestion.setAlignment(Pos.CENTER);
     }
 
-    public void loadQuestion(ObservableValue<? extends Question> observable,Question oldvalue,Question newvalue ){
-        if(observable.getValue()!=null){
+    private void selectQuestion(Observable observable) {
+        currentquestion=inhoud.getSelectionModel().getSelectedItem();
+        loadQuestion(currentquestion);
+    }
+
+    public void loadQuestion(Question question){
+        if(question!=null){
             modifyQuestion.setAlignment(Pos.TOP_LEFT);
             algemeen.getChildren().clear();
             modifyQuestion.getChildren().clear();
@@ -82,12 +85,12 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             picturepart.setFitWidth(150);
 
             algemeen.add(new Label("Titel"), 0, 0);
-            TextField titel = new TextField(observable.getValue().title());
+            TextField titel = new TextField(question.title());
             algemeen.add(titel, 1, 0);
             algemeen.add(new Label("Type"), 0, 1);
-            algemeen.add(new Label(typemap.get(observable.getValue().question_type())), 1, 1);
+            algemeen.add(new Label(typemap.get(question.question_type())), 1, 1);
             algemeen.add(new Label("Tekst"), 0, 2);
-            TextArea textpart = new TextArea(observable.getValue().text_part());
+            TextArea textpart = new TextArea(question.text_part());
             textpart.setWrapText(true);
             algemeen.add(textpart, 1, 2);
             algemeen.add(new Label("Afbeelding"), 0, 3);
@@ -96,38 +99,64 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             VBox imagepart= new VBox(fotobox,fotobuttons);
             algemeen.add(imagepart, 1, 3);
 
-            if (observable.getValue().image_part() == null){
+            if (question.image_part() == null){
                 Button voegtoe = new Button("Voeg afbeelding toe");
                 voegtoe.setOnAction(this::chooseImage);
                 fotobox.getChildren().add(voegtoe);
             } else {
-                picturepart.setUserData(observable.getValue().image_part());
-                picturepart.setImage(new Image(new ByteArrayInputStream(observable.getValue().image_part())));
+                picturepart.setUserData(question.image_part());
+                picturepart.setImage(new Image(new ByteArrayInputStream(question.image_part())));
                 showimage();
             }
-            algemeen.getChildren().add(answers);
-            new BeheerdersinterfaceCompanion().loadParts(answers,observable.getValue());
-
-
-            inhoud.disableProperty().bind(titel.textProperty().isNotEqualTo(observable.getValue().title()).
-                    or(textpart.textProperty().isNotEqualTo(observable.getValue().text_part())).
+            algemeen.add(answers,0,4);
+            new BeheerdersinterfaceCompanion().loadParts(answers,question);
+            HBox savebuttons=new HBox();
+            Button save=new Button("opslaan");
+            save.setOnAction(this::updateQuestion);
+            Button recover=new Button("herstel");
+            recover.setOnAction(event -> loadQuestion(currentquestion));
+            Button preview=new Button("preview");
+            preview.setOnAction(event ->showPreview());
+            savebuttons.getChildren().addAll(save,recover,preview);
+            modifyQuestion.getChildren().add(savebuttons);
+            inhoud.disableProperty().bind(titel.textProperty().isNotEqualTo(question.title()).
+                    or(textpart.textProperty().isNotEqualTo(question.text_part())).
                     or(new SimpleBooleanProperty(ischanged())));
         } else {
-            initialize();
+            remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
+            modifyQuestion.getChildren().clear();
+            modifyQuestion.getChildren().add(new Label("(geen vraag geselecteerd)"));
+            modifyQuestion.setAlignment(Pos.CENTER);
         }
-    }
-    private boolean ischanged() {
-        if (picturepart.getImage()==null && inhoud.getSelectionModel().getSelectedItem().image_part()==null){
-            return false;
-        } else if(picturepart.getImage()==null && inhoud.getSelectionModel().getSelectedItem().image_part()!=null){
-            return true;
-        } else if(picturepart.getImage()!=null && inhoud.getSelectionModel().getSelectedItem().image_part()==null){
-            return true;
-        }
-        return  ! Arrays.equals(inhoud.getSelectionModel().getSelectedItem().image_part(),(byte[]) picturepart.getUserData());
     }
 
-    private void removeImage(ActionEvent event) {
+    private void showPreview() {
+    }
+
+    private void updateQuestion(ActionEvent event) {
+
+    }
+
+    private boolean ischanged() {
+        if (picturepart.getImage()==null && currentquestion.image_part()==null){
+            return false;
+        } else if(picturepart.getImage()==null && currentquestion.image_part()!=null){
+            return true;
+        } else if(picturepart.getImage()!=null && currentquestion.image_part()==null){
+            return true;
+        }
+        return  ! Arrays.equals(currentquestion.image_part(),(byte[]) picturepart.getUserData());
+    }
+
+    private void removeImage() {
+        picturepart.setImage(null);
+        picturepart.setUserData(null);
+        fotobox.getChildren().clear();
+        fotobuttons.getChildren().clear();
+        Button voegtoe = new Button("Voeg afbeelding toe");
+        voegtoe.setOnAction(this::chooseImage);
+        fotobox.getChildren().add(voegtoe);
+        ischanged();
     }
 
     public void addQuestion(){}
@@ -152,7 +181,6 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 }
             }
             ischanged();
-            System.out.println(ischanged());
         }
 
     private void showimage() {
@@ -160,7 +188,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         Button change_p =new Button("wijzig foto");
         Button delete_p=new Button("verwijder foto");
         change_p.setOnAction(this::chooseImage);
-        delete_p.setOnAction(this::removeImage);
+        delete_p.setOnAction(event -> removeImage());
         fotobuttons.getChildren().addAll(change_p,delete_p);
     }
 
