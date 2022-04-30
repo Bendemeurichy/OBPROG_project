@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class MrController extends QuestionController {
     @FXML
     public GridPane answers;
-    public Button next=new Button("Ok");
+    public final Button next=new Button("Ok");
 
-    private ArrayList<CheckBox> checkBoxes= new ArrayList<>();
+    private final ArrayList<CheckBox> checkBoxes= new ArrayList<>();
     private final ArrayList<Parts> parts;
 
     public MrController(Question question, QuestionManager manager, boolean prevCorrect) throws DataAccesException {

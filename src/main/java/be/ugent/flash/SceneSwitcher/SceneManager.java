@@ -1,7 +1,6 @@
 package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
-import be.ugent.flash.jdbc.DataAccesException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

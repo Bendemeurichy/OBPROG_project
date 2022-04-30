@@ -14,7 +14,7 @@ public class OpeniController extends OpenController{
 
     public void answer(KeyEvent event){
         super.warning.setText("Antwoord moet geheel getal zijn");
-        if(! answerField.getText().matches("^-?[0-9]+$")){
+        if(! answerField.getText().matches("^-?\\d+$")){
             this.question.getStyleClass().add("warning");
             warning.setVisible(true);
         } else {

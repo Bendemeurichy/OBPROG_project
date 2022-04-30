@@ -1,10 +1,10 @@
-package be.ugent.flash.beheerdersinterface;
+package be.ugent.flash.beheerdersinterface.popups;
 //source popupwindow:http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php
 
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -29,8 +29,8 @@ public class NewQuestionDialog {
     private final File db;
 
     @FXML
-    public ComboBox<String> types=new ComboBox<>();
-    public  TextField questiontitle=new TextField();
+    public final ComboBox<String> types=new ComboBox<>();
+    public final TextField questiontitle=new TextField();
 
     public NewQuestionDialog(BeheerdersinterfaceController controller, TableView<Question> tableView, File db){
         this.db=db;

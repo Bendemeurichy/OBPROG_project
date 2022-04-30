@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBCDataAccesProvider implements DataAccesProvider{
-    private String database;
+    private final String database;
 
     public JDBCDataAccesProvider(String resource){
         this.database =resource;

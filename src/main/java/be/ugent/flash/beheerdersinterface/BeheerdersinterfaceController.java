@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
+import be.ugent.flash.beheerdersinterface.popups.NewQuestionDialog;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
@@ -30,13 +31,13 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public TableColumn<Question,String> type;
     public VBox fotobox;
     public HBox fotobuttons;
-    public ImageView picturepart= new ImageView();
-    public TextField titleEditor=new TextField();
-    public TextArea textpart = new TextArea();
-    public VBox answers = new VBox();
+    public final ImageView picturepart= new ImageView();
+    public final TextField titleEditor=new TextField();
+    public final TextArea textpart = new TextArea();
+    public final VBox answers = new VBox();
     public VBox modifyQuestion;
     public Button remove;
-    public GridPane algemeen=new GridPane();
+    public final GridPane algemeen=new GridPane();
     private final File questiondb;
     private  Question currentquestion;
 
