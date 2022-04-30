@@ -17,27 +17,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 
 public class  BeheerdersinterfaceController extends MenuOpties{
     @FXML
     public TableView<Question> inhoud;
+    public TableColumn<Question,String> titel;
+    public TableColumn<Question,String> type;
     public VBox fotobox;
     public HBox fotobuttons;
     public ImageView picturepart= new ImageView();
     public TextField titleEditor=new TextField();
     public TextArea textpart = new TextArea();
-    public TableColumn<Question,String> titel;
     public VBox answers = new VBox();
-    public TableColumn<Question,String> type;
     public VBox modifyQuestion;
     public Button remove;
     public GridPane algemeen=new GridPane();
@@ -108,12 +104,12 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
             if (question.image_part() == null){
                 Button voegtoe = new Button("Voeg afbeelding toe");
-                voegtoe.setOnAction(this::chooseImage);
+                voegtoe.setOnAction(new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this)::chooseImage);
                 fotobox.getChildren().add(voegtoe);
             } else {
                 picturepart.setUserData(question.image_part());
                 picturepart.setImage(new Image(new ByteArrayInputStream(question.image_part())));
-                showimage();
+                new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this).showimage();
             }
             algemeen.add(answers,0,4);
             new BeheerdersinterfaceCompanion().loadParts(answers,question);
@@ -149,7 +145,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb);
     }
 
-    private boolean ischanged() {
+    public boolean ischanged() {
         if (picturepart.getImage()==null && currentquestion.image_part()==null){
             return false;
         } else if(picturepart.getImage()==null && currentquestion.image_part()!=null){
@@ -160,53 +156,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         return  ! Arrays.equals(currentquestion.image_part(),(byte[]) picturepart.getUserData());
     }
 
-    private void removeImage() {
-        picturepart.setImage(null);
-        picturepart.setUserData(null);
-        fotobox.getChildren().clear();
-        fotobuttons.getChildren().clear();
-        Button voegtoe = new Button("Voeg afbeelding toe");
-        voegtoe.setOnAction(this::chooseImage);
-        fotobox.getChildren().add(voegtoe);
-        ischanged();
-    }
-
     public void addQuestion(){}
-
-    public void chooseImage(ActionEvent event) {
-            FileChooser chooser= new FileChooser();
-            chooser.setTitle("Kies een afbeelding (.jpeg of png)");
-            chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg"),new FileChooser.ExtensionFilter("npg files","*.npg"));
-            File file=chooser.showOpenDialog(pane.getScene().getWindow());
-            if(file !=null){
-                try {
-                    fotobox.getChildren().clear();
-                    fotobuttons.getChildren().clear();
-                    byte[] bytes = Files.readAllBytes(Path.of(file.getPath()));
-                    Image image=new Image(new ByteArrayInputStream(bytes));
-                    picturepart.setUserData(bytes);
-                    picturepart.setImage(image);
-                    showimage();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            ischanged();
-        }
-
-    private void showimage() {
-        fotobox.getChildren().add(picturepart);
-        Button change_p =new Button("wijzig foto");
-        Button delete_p=new Button("verwijder foto");
-        change_p.setOnAction(this::chooseImage);
-        delete_p.setOnAction(event -> removeImage());
-        fotobuttons.getChildren().addAll(change_p,delete_p);
-    }
-
 
     public void removeQuestion(){
         new BeheerdersinterfaceCompanion().removeQuestion(this,inhoud,questiondb);
     }
-
 }
