@@ -31,10 +31,7 @@ public class QuestionManager {
         this.sceneManager=new SceneManager(stage);
         questions = dataAccesProvider.getDataAccessContext().getQuestionDAO().allQuestionData();
     }
-    //laad vervang alle vragen door de vraag waar een preview van wordt gevraagd
-    public void loadPreview(Question preview){
-        questions=new ArrayList<>(List.of(preview));
-    }
+
     //laad eerste vraag in en verander naar de juiste scene
     public void start(){
         this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, true);

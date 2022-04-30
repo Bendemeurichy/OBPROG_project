@@ -1,6 +1,7 @@
 package be.ugent.flash.beheerdersinterface;
 
 import be.ugent.flash.beheerdersinterface.popups.NewQuestionDialog;
+import be.ugent.flash.beheerdersinterface.popups.Preview;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
@@ -15,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -120,7 +122,11 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             Button recover=new Button("herstel");
             recover.setOnAction(event -> loadQuestion(currentquestion));
             Button preview=new Button("preview");
-            preview.setOnMouseDragEntered(event ->showPreview());
+            Preview questionpreview=new Preview(currentquestion);
+
+            preview.setOnMousePressed(event ->questionpreview.showPreview());
+            preview.setOnMouseReleased(event->questionpreview.closePreview());  //TODO niet optimaal: hoe while action?
+            preview.setOnMouseExited(mouseEvent -> questionpreview.closePreview());
 
             save.disableProperty().bind(inhoud.disableProperty().not());
             recover.disableProperty().bind(inhoud.disableProperty().not());

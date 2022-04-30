@@ -7,9 +7,14 @@ import javafx.scene.input.KeyEvent;
 
 public class OpeniController extends OpenController{
 
-    public OpeniController (Question question, QuestionManager manager, boolean prevCorrect) {
-        super(question,manager,prevCorrect);
+    public OpeniController (Question question) {
+        super(question);
 
+    }
+
+    @Override
+    public void makequiz(QuestionManager manager, boolean prevCorrect) {
+        super.makequiz(manager, prevCorrect);
     }
 
     public void answer(KeyEvent event){

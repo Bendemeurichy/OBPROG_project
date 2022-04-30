@@ -14,7 +14,7 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
 
     @Override
     public ArrayList<Parts> specificPart(int id) throws DataAccesException {
-        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM answers WHERE question_id=? ORDER BY part_id")) {
+        try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
             ResultSet data= ps.executeQuery();
 

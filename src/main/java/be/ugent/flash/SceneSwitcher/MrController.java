@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MrController extends QuestionController {
@@ -21,13 +22,17 @@ public class MrController extends QuestionController {
     public final Button next=new Button("Ok");
 
     private final ArrayList<CheckBox> checkBoxes= new ArrayList<>();
-    private final ArrayList<Parts> parts;
+    private ArrayList<Parts> parts;
 
-    public MrController(Question question, QuestionManager manager, boolean prevCorrect) throws DataAccesException {
-        this.prevCorrect=prevCorrect;
-        this.manager=manager;
+    public MrController(Question question, ArrayList<Parts> parts) {
         this.questionData=new GeneralQuestion(question);
-        this.parts= manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+        this.parts= parts;
+    }
+
+    public void makequiz(QuestionManager manager, boolean prevCorrect) throws DataAccesException {
+        this.manager=manager;
+        this.prevCorrect=prevCorrect;
+        this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
     }
 
     public void initialize(){

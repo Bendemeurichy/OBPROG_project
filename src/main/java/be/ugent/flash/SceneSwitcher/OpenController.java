@@ -14,11 +14,15 @@ public class OpenController extends QuestionController{
     public TextField answerField;
     public Label warning;
 
-    public OpenController(Question question, QuestionManager manager,boolean prevCorrect){
+    public OpenController(Question question){
         this.questionData=new GeneralQuestion(question);
+
+    }
+    public void makequiz(QuestionManager manager,boolean prevCorrect) {
         this.prevCorrect=prevCorrect;
         this.manager=manager;
     }
+
 
     public void initialize(){
         super.initialize();
@@ -46,4 +50,6 @@ public class OpenController extends QuestionController{
     public String getfxml() {
         return "Open.fxml";
     }
+
+
 }

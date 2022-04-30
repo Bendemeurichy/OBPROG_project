@@ -3,7 +3,10 @@ package be.ugent.flash.QuestionManager;
 import be.ugent.flash.SceneSwitcher.McsController;
 import be.ugent.flash.SceneSwitcher.QuestionController;
 import be.ugent.flash.jdbc.DataAccesException;
+import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
+
+import java.util.ArrayList;
 
 public class McsFactory implements QuestionFactory {
     @Override
@@ -13,6 +16,11 @@ public class McsFactory implements QuestionFactory {
         } catch (DataAccesException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public QuestionController loadPreview(Question question, ArrayList<Parts> parts) {
         return null;
     }
 }
