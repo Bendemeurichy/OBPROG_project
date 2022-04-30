@@ -8,4 +8,6 @@ public interface QuestionDAO {
     Question specificQuestion(int id) throws DataAccesException;
 
     void removeQuestion(int questionId) throws DataAccesException;
+
+    void updateQuestion(Question question) throws DataAccesException;
 }

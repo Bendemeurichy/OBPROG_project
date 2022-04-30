@@ -58,4 +58,19 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         }
     }
 
+    @Override
+    public void updateQuestion(Question question) throws DataAccesException {
+        try (PreparedStatement ps =prepare("UPDATE questions SET title= ?, text_part= ?, image_part= ?, question_type= ? , correct_answer= ? WHERE question_id = ?")){
+            ps.setString(1,question.title());
+            ps.setString(2,question.text_part());
+            ps.setBytes(3,question.image_part());
+            ps.setString(4,question.question_type());
+            ps.setString(5,question.correct_answer());
+            ps.setInt(6,question.question_id());
+            ps.executeUpdate();
+        } catch(SQLException e){
+            throw new DataAccesException("could not find question with id " +question.question_id(),e);
+        }
+    }
+
 }

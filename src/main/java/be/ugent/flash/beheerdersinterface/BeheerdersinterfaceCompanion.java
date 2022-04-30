@@ -1,9 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
-import be.ugent.flash.jdbc.DataAccesContext;
-import be.ugent.flash.jdbc.DataAccesException;
-import be.ugent.flash.jdbc.JDBCDataAccesProvider;
-import be.ugent.flash.jdbc.Question;
+import be.ugent.flash.jdbc.*;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
@@ -22,8 +19,14 @@ public class BeheerdersinterfaceCompanion {
         controller.initialize();
     }
 
-    public void save(BeheerdersinterfaceController controller, Question vraag){
+    public void save(BeheerdersinterfaceController controller, Question question,File file){
         //update db
+        try{
+            DataAccesContext dp= new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext();
+            dp.getQuestionDAO().updateQuestion(question);
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
         controller.initialize();
     }
 

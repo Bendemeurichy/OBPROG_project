@@ -33,6 +33,8 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public VBox fotobox;
     public HBox fotobuttons;
     public ImageView picturepart= new ImageView();
+    public TextField titleEditor=new TextField();
+    public TextArea textpart = new TextArea();
     public TableColumn<Question,String> titel;
     public VBox answers = new VBox();
     public TableColumn<Question,String> type;
@@ -50,6 +52,11 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     public void initialize() {
+        inhoud.disableProperty().unbind();
+        inhoud.setDisable(false);
+        currentquestion=null;
+        titleEditor.clear();
+        textpart.clear();
         ObservableList<Question> questions;
         try {
             questions = FXCollections.observableArrayList(
@@ -85,12 +92,12 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             picturepart.setFitWidth(150);
 
             algemeen.add(new Label("Titel"), 0, 0);
-            TextField titel = new TextField(question.title());
-            algemeen.add(titel, 1, 0);
+            titleEditor.setText(currentquestion.title());
+            algemeen.add(titleEditor, 1, 0);
             algemeen.add(new Label("Type"), 0, 1);
             algemeen.add(new Label(typemap.get(question.question_type())), 1, 1);
             algemeen.add(new Label("Tekst"), 0, 2);
-            TextArea textpart = new TextArea(question.text_part());
+            textpart.setText(question.text_part());
             textpart.setWrapText(true);
             algemeen.add(textpart, 1, 2);
             algemeen.add(new Label("Afbeelding"), 0, 3);
@@ -117,10 +124,13 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             recover.setOnAction(event -> loadQuestion(currentquestion));
             Button preview=new Button("preview");
             preview.setOnAction(event ->showPreview());
+
+            save.disableProperty().bind(inhoud.disableProperty().not());
+            recover.disableProperty().bind(inhoud.disableProperty().not());
             savebuttons.getChildren().addAll(save,recover,preview);
             modifyQuestion.getChildren().add(savebuttons);
-            inhoud.disableProperty().bind(titel.textProperty().isNotEqualTo(question.title()).
-                    or(textpart.textProperty().isNotEqualTo(question.text_part())).
+            inhoud.disableProperty().bind(titleEditor.textProperty().isNotEqualTo(question.title()).
+                  or(textpart.textProperty().isNotEqualTo(question.text_part())).
                     or(new SimpleBooleanProperty(ischanged())));
         } else {
             remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
@@ -134,7 +144,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     private void updateQuestion(ActionEvent event) {
-
+        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
+        currentquestion=null;
+        new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb);
     }
 
     private boolean ischanged() {
