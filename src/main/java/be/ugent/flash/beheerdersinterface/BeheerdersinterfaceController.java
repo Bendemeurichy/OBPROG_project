@@ -120,7 +120,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             Button recover=new Button("herstel");
             recover.setOnAction(event -> loadQuestion(currentquestion));
             Button preview=new Button("preview");
-            preview.setOnAction(event ->showPreview());
+            preview.setOnMouseDragEntered(event ->showPreview());
 
             save.disableProperty().bind(inhoud.disableProperty().not());
             recover.disableProperty().bind(inhoud.disableProperty().not());

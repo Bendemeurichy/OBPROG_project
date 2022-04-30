@@ -65,6 +65,8 @@ public class NewQuestionDialog {
         HBox buttons=new HBox();
         Button save=new Button("OK");
         Button cancel=new Button("Annuleren");
+        cancel.setCancelButton(true);
+        save.setDefaultButton(true);
         save.setOnAction(this::makequestion);
         save.disableProperty().bind(questiontitle.textProperty().isEmpty());
         cancel.setOnAction(event -> popupwindow.close());

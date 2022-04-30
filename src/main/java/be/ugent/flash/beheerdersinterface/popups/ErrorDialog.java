@@ -21,6 +21,7 @@ public class ErrorDialog {
         popupwindow.setTitle("QuestionError");
         errormessage.setText(message);
         ok.setOnAction(event -> popupwindow.close());
+        ok.setDefaultButton(true);
         popupwindow.show();
 
     }

@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public class QuestionManager {
     private final DataAccesProvider dataAccesProvider;
     private final Map<String, QuestionFactory> factories= Map.of("mcs",new McsFactory(),"mcc",new MccFactory(),
             "mci",new MciFactory(),"mr",new MrFactory(),"open",new OpenFactory(),"openi",new OpenIFactory());
-    private final ArrayList<Question> questions;
+    private ArrayList<Question> questions;
     private QuestionController currentQuestion;
     private final SceneManager sceneManager;
 
@@ -30,7 +31,10 @@ public class QuestionManager {
         this.sceneManager=new SceneManager(stage);
         questions = dataAccesProvider.getDataAccessContext().getQuestionDAO().allQuestionData();
     }
-
+    //laad vervang alle vragen door de vraag waar een preview van wordt gevraagd
+    public void loadPreview(Question preview){
+        questions=new ArrayList<>(List.of(preview));
+    }
     //laad eerste vraag in en verander naar de juiste scene
     public void start(){
         this.currentQuestion= factories.get(questions.get(0).question_type()).CreateFlashcard(questions.get(0),this, true);
