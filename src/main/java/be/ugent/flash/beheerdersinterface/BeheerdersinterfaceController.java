@@ -124,6 +124,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             save.disableProperty().bind(inhoud.disableProperty().not());
             recover.disableProperty().bind(inhoud.disableProperty().not());
             savebuttons.getChildren().addAll(save,recover,preview);
+            savebuttons.setAlignment(Pos.CENTER_RIGHT);
             modifyQuestion.getChildren().add(savebuttons);
             inhoud.disableProperty().bind(titleEditor.textProperty().isNotEqualTo(question.title()).
                   or(textpart.textProperty().isNotEqualTo(question.text_part())).
@@ -156,7 +157,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         return  ! Arrays.equals(currentquestion.image_part(),(byte[]) picturepart.getUserData());
     }
 
-    public void addQuestion(){}
+    public void addQuestion(){
+        new NewQuestionDialog(this,inhoud,questiondb).display();
+    }
 
     public void removeQuestion(){
         new BeheerdersinterfaceCompanion().removeQuestion(this,inhoud,questiondb);

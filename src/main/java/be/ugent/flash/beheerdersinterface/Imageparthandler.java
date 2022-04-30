@@ -45,7 +45,7 @@ public class Imageparthandler {
     public void chooseImage(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Kies een afbeelding (.jpeg of png)");
-        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg","*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
         File file = chooser.showOpenDialog(pane.getScene().getWindow());
         if (file != null){
             try {

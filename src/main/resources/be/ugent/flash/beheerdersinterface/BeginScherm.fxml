@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ugent.flash.beheerdersinterface.MenuOpties">
+<BorderPane prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ugent.flash.beheerdersinterface.MenuOpties">
    <center>
       <GridPane fx:id="pane" alignment="CENTER" prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <columnConstraints>

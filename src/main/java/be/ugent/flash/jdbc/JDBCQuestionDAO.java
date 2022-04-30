@@ -73,4 +73,18 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
         }
     }
 
+    @Override
+    public Question addQuestion(String title, String type) throws DataAccesException {
+        Question generatedQuestion;
+        try(PreparedStatement ps = prepare("Insert INTO questions(title,question_type) Values(?,?)")){
+            ps.setString(1,title);
+            ps.setString(2,type);
+            ps.executeUpdate();
+
+            generatedQuestion=specificQuestion(ps.getGeneratedKeys().getInt(1));
+        } catch (SQLException e) {
+            throw new DataAccesException("could not create question",e);
+        }
+        return generatedQuestion;
+    }
 }

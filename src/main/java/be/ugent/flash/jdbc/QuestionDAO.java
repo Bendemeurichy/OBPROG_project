@@ -10,4 +10,6 @@ public interface QuestionDAO {
     void removeQuestion(int questionId) throws DataAccesException;
 
     void updateQuestion(Question question) throws DataAccesException;
+
+    Question addQuestion(String text, String s) throws DataAccesException;
 }
