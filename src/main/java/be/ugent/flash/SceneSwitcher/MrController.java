@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MrController extends QuestionController {
@@ -23,16 +22,29 @@ public class MrController extends QuestionController {
 
     private final ArrayList<CheckBox> checkBoxes= new ArrayList<>();
     private ArrayList<Parts> parts;
+    private boolean disabled=false;
 
     public MrController(Question question, ArrayList<Parts> parts) {
         this.questionData=new GeneralQuestion(question);
         this.parts= parts;
     }
 
-    public void makequiz(QuestionManager manager, boolean prevCorrect) throws DataAccesException {
-        this.manager=manager;
-        this.prevCorrect=prevCorrect;
-        this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+    public void makequiz(QuestionManager manager, boolean prevCorrect) {
+        super.makequiz(manager,prevCorrect);
+        try {
+            this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+        } catch (DataAccesException e) {
+            try {
+                throw new DataAccesException("kon parts niet vinden",e);
+            } catch (DataAccesException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    @Override
+    public void disable() {
+        disabled=true;
     }
 
     public void initialize(){
@@ -45,6 +57,9 @@ public class MrController extends QuestionController {
         }
         answers.add(next,2,answers.getRowCount()-1);
         next.setOnAction(this::answer);
+        for(CheckBox checkBox:checkBoxes){
+            checkBox.setDisable(disabled);
+        }
     }
 
     public void answer(ActionEvent t){

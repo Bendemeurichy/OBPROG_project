@@ -1,7 +1,6 @@
 package be.ugent.flash.QuestionManager;
 
 import be.ugent.flash.SceneSwitcher.QuestionController;
-import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 
 import java.util.ArrayList;
@@ -10,5 +9,5 @@ import java.util.ArrayList;
 public interface QuestionFactory {
     QuestionController CreateFlashcard(Question question, QuestionManager questionManager,boolean prevCorrect);
 
-    QuestionController loadPreview(Question question, ArrayList<Parts> parts);
+    QuestionController loadPreview(Question question, ArrayList<?> parts);
 }

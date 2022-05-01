@@ -1,6 +1,5 @@
 package be.ugent.flash.SceneSwitcher;
 
-import be.ugent.flash.QuestionManager.QuestionManager;
 import be.ugent.flash.jdbc.Question;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,12 +10,6 @@ public class OpeniController extends OpenController{
         super(question);
 
     }
-
-    @Override
-    public void makequiz(QuestionManager manager, boolean prevCorrect) {
-        super.makequiz(manager, prevCorrect);
-    }
-
     public void answer(KeyEvent event){
         super.warning.setText("Antwoord moet geheel getal zijn");
         if(! answerField.getText().matches("^-?\\d+$")){

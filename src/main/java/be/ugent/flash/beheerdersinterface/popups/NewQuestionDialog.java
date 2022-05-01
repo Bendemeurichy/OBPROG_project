@@ -41,6 +41,7 @@ public class NewQuestionDialog {
         Stage popupwindow=new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setResizable(false);
         popupwindow.setTitle("Maak nieuwe vraag");
 
         VBox layout=new VBox();

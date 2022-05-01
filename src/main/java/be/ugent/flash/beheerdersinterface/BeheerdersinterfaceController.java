@@ -2,6 +2,7 @@ package be.ugent.flash.beheerdersinterface;
 
 import be.ugent.flash.beheerdersinterface.popups.NewQuestionDialog;
 import be.ugent.flash.beheerdersinterface.popups.Preview;
+import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
@@ -16,14 +17,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Map;
 
 public class  BeheerdersinterfaceController extends MenuOpties{
@@ -42,6 +41,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public final GridPane algemeen=new GridPane();
     private final File questiondb;
     private  Question currentquestion;
+    private boolean changed=false;
+    private Preview questionpreview;
+    private final Partsloader partsloader=new Partsloader();
 
     private final Map<String,String> typemap= Map.of("mcs","Meerkeuze (standaard)","mcc","Meerkeuze (compact)",
             "mci","Meerkeuze (afbeeldingen)","mr","Meerantwoord","open","Open (tekst)","openi","Open (geheel)");
@@ -78,6 +80,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     public void loadQuestion(Question question){
         if(question!=null){
+            changed=false;
             modifyQuestion.setAlignment(Pos.TOP_LEFT);
             algemeen.getChildren().clear();
             modifyQuestion.getChildren().clear();
@@ -115,16 +118,16 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this).showimage();
             }
             algemeen.add(answers,0,4);
-            new BeheerdersinterfaceCompanion().loadParts(answers,question);
+            partsloader.loadParts(answers,question,questiondb);
             HBox savebuttons=new HBox();
             Button save=new Button("opslaan");
             save.setOnAction(this::updateQuestion);
             Button recover=new Button("herstel");
             recover.setOnAction(event -> loadQuestion(currentquestion));
             Button preview=new Button("preview");
-            Preview questionpreview=new Preview(currentquestion);
+            questionpreview=new Preview(pane);
 
-            preview.setOnMousePressed(event ->questionpreview.showPreview());
+            preview.setOnMousePressed(event -> showPreview());
             preview.setOnMouseReleased(event->questionpreview.closePreview());  //TODO niet optimaal: hoe while action?
             preview.setOnMouseExited(mouseEvent -> questionpreview.closePreview());
 
@@ -133,9 +136,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             savebuttons.getChildren().addAll(save,recover,preview);
             savebuttons.setAlignment(Pos.CENTER_RIGHT);
             modifyQuestion.getChildren().add(savebuttons);
-            inhoud.disableProperty().bind(titleEditor.textProperty().isNotEqualTo(question.title()).
+            inhoud.disableProperty().bind((new SimpleBooleanProperty(changed)).
                   or(textpart.textProperty().isNotEqualTo(question.text_part())).
-                    or(new SimpleBooleanProperty(ischanged())));
+                    or(titleEditor.textProperty().isNotEqualTo(question.title())));
         } else {
             remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
             modifyQuestion.getChildren().clear();
@@ -145,6 +148,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     private void showPreview() {
+        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
+
+        questionpreview.showPreview(changedQuestion,partsloader.getParts());
     }
 
     private void updateQuestion(ActionEvent event) {
@@ -153,15 +159,8 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb);
     }
 
-    public boolean ischanged() {
-        if (picturepart.getImage()==null && currentquestion.image_part()==null){
-            return false;
-        } else if(picturepart.getImage()==null && currentquestion.image_part()!=null){
-            return true;
-        } else if(picturepart.getImage()!=null && currentquestion.image_part()==null){
-            return true;
-        }
-        return  ! Arrays.equals(currentquestion.image_part(),(byte[]) picturepart.getUserData());
+    public void ischanged() {
+        changed=true;
     }
 
     public void addQuestion(){

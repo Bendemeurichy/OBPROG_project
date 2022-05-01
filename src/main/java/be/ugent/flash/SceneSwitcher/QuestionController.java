@@ -24,7 +24,7 @@ public abstract class QuestionController {
     protected GeneralQuestion questionData;
     protected QuestionManager manager;
     protected boolean correct;
-    protected boolean prevCorrect;
+    protected boolean prevCorrect=true;
 
     public abstract String getfxml();
 
@@ -44,4 +44,10 @@ public abstract class QuestionController {
         return questionData.getTitle();
     }
 
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect){
+        this.manager=questionManager;
+        this.prevCorrect=prevCorrect;
+    }
+
+    public abstract void disable();
 }

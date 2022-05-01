@@ -16,12 +16,29 @@ public class McsController extends AbstractMC{
     @FXML
     public GridPane answers;
 
-    private final ArrayList<Parts> parts;
-
-    public McsController(Question question, QuestionManager questionManager,boolean prevCorrect) throws DataAccesException {
-        super(question, questionManager, prevCorrect);
-        this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+    private ArrayList<Parts> parts;
+    private boolean disabled=false;
+    public McsController(Question question,ArrayList<Parts> parts){
+        super(question,parts);
     }
+
+    @Override
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
+        super.makequiz(questionManager, prevCorrect);
+        try {
+            this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void disable() {
+        disabled=true;
+    }
+
+    @Override
+
 
     public void initialize() {
         super.initialize();
@@ -33,7 +50,7 @@ public class McsController extends AbstractMC{
             answers.add(temp,0,i);
             answers.add(new TextFlow(new Text(parts.get(i).part())),1,i);
         }
-
+        answers.setDisable(disabled);
     }
 
     @Override

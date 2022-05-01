@@ -17,11 +17,26 @@ public class MciController extends AbstractMC{
     @FXML
     public HBox buttons;
 
-    private final ArrayList<ImageParts> parts;
+    private ArrayList<ImageParts> parts;
+    private boolean disabled=false;
+    public MciController(Question question,ArrayList<ImageParts> parts) {
+        super(question,parts);
 
-    public MciController(Question question, QuestionManager questionManager,boolean prevCorrect) throws DataAccesException {
-        super(question, questionManager, prevCorrect);
-        this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificImagepart(questionData.getId());
+    }
+
+    @Override
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
+        super.makequiz(questionManager, prevCorrect);
+        try {
+            parts=manager.getProvider().getDataAccessContext().getPartDAO().specificImagepart(questionData.getId());
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void disable() {
+        disabled=true;
     }
 
     public void initialize(){
@@ -35,6 +50,7 @@ public class MciController extends AbstractMC{
             temp.setGraphic(answer);
             buttons.getChildren().add(temp);
         }
+        buttons.setDisable(disabled);
     }
 
     @Override

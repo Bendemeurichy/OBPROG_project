@@ -15,7 +15,7 @@ public class ErrorDialog {
 
     public void display(String message) throws IOException {
         Stage popupwindow =new Stage();
-
+        popupwindow.setResizable(false);
         FXMLLoader fxmlLoader= new FXMLLoader(ErrorDialog.class.getResource("Errordialog.fxml"));
         popupwindow.setScene(fxmlLoader.load());
         popupwindow.setTitle("QuestionError");

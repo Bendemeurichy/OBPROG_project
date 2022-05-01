@@ -6,11 +6,16 @@ import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
+import java.util.ArrayList;
+
 public abstract class AbstractMC extends QuestionController {
-    public AbstractMC(Question question, QuestionManager questionManager, boolean prevCorrect){
-        this.prevCorrect=prevCorrect;
+    public AbstractMC(Question question, ArrayList<?> parts){
         this.questionData=new GeneralQuestion(question);
-        this.manager=questionManager;
+    }
+
+    @Override
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
+        super.makequiz(questionManager, prevCorrect);
     }
 
     public void answer(ActionEvent event){

@@ -14,11 +14,27 @@ public class MccController extends AbstractMC{
     @FXML
     public HBox buttons;
 
-    private final ArrayList<Parts> parts;
+    private ArrayList<Parts> parts;
+    private boolean disabled=false;
 
-    public MccController(Question question, QuestionManager questionManager,boolean prevCorrect) throws DataAccesException{
-        super(question, questionManager, prevCorrect);
-        this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+    public MccController(Question question,ArrayList<Parts> parts){
+        super(question,parts);
+
+    }
+
+    @Override
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
+        super.makequiz(questionManager, prevCorrect);
+        try {
+            this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+        } catch (DataAccesException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void disable() {
+        disabled=true;
     }
 
     public void initialize(){
@@ -29,6 +45,7 @@ public class MccController extends AbstractMC{
             temp.setUserData(i);
             buttons.getChildren().add(temp);
         }
+        buttons.setDisable(disabled);
     }
 
     @Override
