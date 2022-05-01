@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -92,6 +93,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             picturepart.setPreserveRatio(true);
             picturepart.setFitHeight(100);
             picturepart.setFitWidth(150);
+            modifyQuestion.setPadding(new Insets(5,5,5,5));
 
             algemeen.add(new Label("Titel"), 0, 0);
             titleEditor.setText(currentquestion.title());
@@ -117,7 +119,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 picturepart.setImage(new Image(new ByteArrayInputStream(question.image_part())));
                 new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this).showimage();
             }
-            algemeen.add(answers,0,4);
+            modifyQuestion.getChildren().add(answers);
             partsloader.loadParts(answers,question,questiondb);
             HBox savebuttons=new HBox();
             Button save=new Button("opslaan");
