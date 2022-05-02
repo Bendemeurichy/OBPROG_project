@@ -76,9 +76,10 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
     @Override
     public Question addQuestion(String title, String type) throws DataAccesException {
         Question generatedQuestion;
-        try(PreparedStatement ps = prepare("Insert INTO questions(title,question_type) Values(?,?)")){
+        try(PreparedStatement ps = prepare("Insert INTO questions(title,question_type,correct_answer) Values(?,?,?)")){
             ps.setString(1,title);
             ps.setString(2,type);
+            ps.setString(3,type.matches("mc")|type.matches("openi")?0+"":null);
             ps.executeUpdate();
 
             generatedQuestion=specificQuestion(ps.getGeneratedKeys().getInt(1));

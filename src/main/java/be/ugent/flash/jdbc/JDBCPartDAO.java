@@ -21,7 +21,7 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             ArrayList<Parts> parts=new ArrayList<>();
 
             while(data.next()){
-                parts.add(new Parts(data.getInt(1),data.getInt(2),data.getString(3)));
+                parts.add(new Parts(data.getInt(2),data.getString(3)));
             }
             return parts;
         }catch (SQLException e){
@@ -54,6 +54,21 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
                 throw new DataAccesException("could not find answers for question with id " +questionID,e);
             }
         }
+
+    @Override
+    public void addParts(ArrayList<Parts> parts) throws DataAccesException {
+        if ( parts!=null){
+        for(Parts part:parts) {
+            try (PreparedStatement ps = prepare("INSERT INTO parts(question_id,part) VALUES(?, ?)")) {
+                ps.setInt(1, part.question_id());
+                ps.setString(2,part.part());
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                throw new DataAccesException("could not find answers for question with id " + part.question_id(), e);
+            }
+        }
+    }
+    }
 
 
 }

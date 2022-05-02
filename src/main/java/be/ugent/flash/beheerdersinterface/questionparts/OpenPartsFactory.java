@@ -8,6 +8,8 @@ import java.io.File;
 public class OpenPartsFactory implements QuestionPartsFactory {
     @Override
     public QuestionPartsController create(Question question, VBox answerbox, File db) {
-        return null;
+        OpenPartsController controller=new OpenPartsController();
+        controller.initParts(question,answerbox,db);
+        return controller;
     }
 }

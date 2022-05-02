@@ -9,8 +9,9 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 
 public abstract class AbstractMC extends QuestionController {
-    public AbstractMC(Question question, ArrayList<?> parts){
+    public AbstractMC(Question question, ArrayList parts){
         this.questionData=new GeneralQuestion(question);
+
     }
 
     @Override

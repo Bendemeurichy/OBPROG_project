@@ -19,6 +19,7 @@ public class MccController extends AbstractMC{
 
     public MccController(Question question,ArrayList<Parts> parts){
         super(question,parts);
+        this.parts=parts;
 
     }
 
@@ -41,6 +42,7 @@ public class MccController extends AbstractMC{
         super.initialize();
         for(int i=0;i< parts.size();i++){
             Button temp= new Button(parts.get(i).part());
+            temp.setDisable(disabled);
             temp.setOnAction(this::answer);
             temp.setUserData(i);
             buttons.getChildren().add(temp);

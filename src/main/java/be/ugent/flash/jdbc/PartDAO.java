@@ -10,4 +10,6 @@ public interface PartDAO {
     ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException;
 
     void removeParts(int questionId) throws DataAccesException;
+
+    void addParts(ArrayList<Parts> parts) throws DataAccesException;
 }

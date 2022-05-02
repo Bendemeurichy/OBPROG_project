@@ -60,6 +60,7 @@ public class MrController extends QuestionController {
         for(CheckBox checkBox:checkBoxes){
             checkBox.setDisable(disabled);
         }
+        next.setDisable(disabled);
     }
 
     public void answer(ActionEvent t){

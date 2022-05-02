@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.beheerdersinterface.popups.NewQuestionDialog;
 import be.ugent.flash.beheerdersinterface.popups.Preview;
 import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
@@ -82,6 +83,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public void loadQuestion(Question question){
         if(question!=null){
             changed=false;
+            answers.getChildren().clear();
             modifyQuestion.setAlignment(Pos.TOP_LEFT);
             algemeen.getChildren().clear();
             modifyQuestion.getChildren().clear();
@@ -90,6 +92,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             modifyQuestion.getChildren().add(algemeen);
             algemeen.setHgap(10);
             algemeen.setVgap(10);
+            modifyQuestion.setSpacing(5);
             picturepart.setPreserveRatio(true);
             picturepart.setFitHeight(100);
             picturepart.setFitWidth(150);
@@ -150,15 +153,22 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     private void showPreview() {
-        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
+        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),partsloader.getCorrectAnswer());
 
+        questionpreview.showPreview(changedQuestion,partsloader.getParts());
         questionpreview.showPreview(changedQuestion,partsloader.getParts());
     }
 
     private void updateQuestion(ActionEvent event) {
-        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
+        try {
+            Question changedQuestion = new Question(currentquestion.question_id(), titleEditor.getText(), textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(), partsloader.getCorrectAnswer());
+            new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb,partsloader);
+        } catch (IllegalArgumentException e){
+            new ErrorDialog().display(e.getMessage());
+            initialize();
+        }
         currentquestion=null;
-        new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb);
+
     }
 
     public void ischanged() {

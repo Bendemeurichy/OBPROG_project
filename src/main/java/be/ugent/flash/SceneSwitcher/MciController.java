@@ -21,6 +21,7 @@ public class MciController extends AbstractMC{
     private boolean disabled=false;
     public MciController(Question question,ArrayList<ImageParts> parts) {
         super(question,parts);
+        this.parts=parts;
 
     }
 

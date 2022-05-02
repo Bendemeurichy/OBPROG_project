@@ -7,13 +7,18 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MciPartsController implements QuestionPartsController {
+public class MciPartsController extends QuestionPartsController {
     @Override
     public void initParts(Question question, VBox answerbox, File file) {
 
     }
 
-    public ArrayList<Parts> getCorrectAnswer() {
+    @Override
+    public ArrayList<Parts> getParts() {
+        return null;
+    }
+
+    public String getCorrectAnswer() {
         return null;
     }
 }

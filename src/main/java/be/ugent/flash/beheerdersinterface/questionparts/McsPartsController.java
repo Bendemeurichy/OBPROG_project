@@ -1,56 +1,78 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class McsPartsController implements QuestionPartsController {
-    private Question question;
-    private GridPane answerPane=new GridPane();
-    private final ArrayList<TextArea> partslist=new ArrayList<>();
-    private final ArrayList<CheckBox> boxlist=new ArrayList<>();
-    private final ArrayList<Button> crossbox=new ArrayList<>();
-    ArrayList<String> correctAnswer; //mag eigenlijk maar 1 zijn, check gebeurt bij opslaan
+public class McsPartsController extends MultipleChoicePartsController{
+
+    protected final ArrayList<TextArea> partslist=new ArrayList<>();
     @Override
     public void initParts(Question question, VBox answerbox, File db) {
-        this.question=question;
-        Button addPart=new Button("Optie toevoegen");
-        addPart.setOnAction(this::addParts);
-        VBox layoutbox=new VBox(new Label("keuzes worden onder elkaar getoond - met knoppen A,B,C..."),answerPane,addPart);
-        TitledPane partpane=new TitledPane("Mogelijke antwoorden",layoutbox);
-        partpane.setPrefSize(450,300);
-        partpane.setCollapsible(false);
-
-        answerbox.getChildren().add(partpane);
+        super.initParts(question,answerbox,db);
         ArrayList<Parts> initialP;
         try {
             initialP=new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getPartDAO().specificPart(question.question_id());
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
-        for(Parts part:initialP){
+        if(initialP.isEmpty()){ //in new question, maak hashmap met default value voor antwoord;
             CheckBox box=new CheckBox();
-            box.setOnAction(this::addsolution);
-            TextArea answerField=new TextArea(part.part());
-            answerField.setWrapText(true);
-            partslist.add(answerField);
-            Button cross=new Button("X");
-            cross.setOnAction(this::removePart);
-            boxlist.add(box);
-            crossbox.add(cross);
+            box.setSelected(true);
+            box.setOnAction(this::updatechange);
+            TextArea answerArea =new TextArea();
+            partsStyling(box, answerArea);
+            BeheerdersinterfaceCompanion companion=new BeheerdersinterfaceCompanion();
+            loadParts();
+        } else {
+            for(Parts part:initialP) {
+                CheckBox box = new CheckBox();
+                box.setOnAction(this::updatechange);
+                TextArea answerArea = new TextArea(part.part());
+                partsStyling(box, answerArea);
+                loadParts();
+                selectCorrect();
+            }
         }
-        loadParts();
+
+    }
+    @Override
+    public String getCorrectAnswer() {
+        ArrayList<CheckBox> checked=new ArrayList<>();
+        for(CheckBox box:boxlist){
+            if(box.isSelected()){
+                checked.add(box);
+            }
+        }
+        if (checked.size()==1){
+            return boxlist.indexOf(checked.get(0))+"";
+        }
+        throw new IllegalArgumentException("Er moet exact één antwoord aangeduid zijn");
     }
 
-    private void loadParts() {
+    public void updatechange(ActionEvent event) {
+    }
+
+    protected void selectCorrect() {
+        for(CheckBox box:boxlist) {
+            if (question.correct_answer().equals(boxlist.indexOf(box) + "")){
+                box.setSelected(true);
+            }
+        }
+    }
+
+    protected void loadParts() {
+        answerPane.getChildren().clear();
         for(int i=0;i<partslist.size();i++){
             answerPane.add(boxlist.get(i),0,i);
             answerPane.add(partslist.get(i),1,i);
@@ -58,21 +80,31 @@ public class McsPartsController implements QuestionPartsController {
         }
     }
 
-    private void addsolution(ActionEvent event) {
+    protected void removePart(ActionEvent event) {
+        int index=crossbox.indexOf(event.getSource());
+        crossbox.remove(index);
+        partslist.remove(index);
+        boxlist.remove(index);
+        loadParts();
     }
 
-    private void removePart(ActionEvent event) {
+    public void addPart(ActionEvent event) {
+        CheckBox box=new CheckBox();
+        box.setOnAction(this::updatechange);
+        TextArea answerArea=new TextArea();
+        partsStyling(box, answerArea);
+        loadParts();
     }
 
-    private void addParts(ActionEvent event) {
+    protected void partsStyling(CheckBox box, TextArea answerArea) {
+        answerArea.setWrapText(true);
+        answerArea.setPrefSize(450,50);
+        partslist.add(answerArea);
+        Button cross=new Button("X");
+        cross.setOnAction(this::removePart);
+        boxlist.add(box);
+        crossbox.add(cross);
     }
 
-    public String getCorrectAnswer() {
-        if(correctAnswer.size()!=1){
-        return correctAnswer.get(0);
-        }else{
-            throw new RuntimeException("Too many answers");
-        }
 
-    }
 }

@@ -4,9 +4,14 @@ import be.ugent.flash.jdbc.Question;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.util.ArrayList;
 
-public interface QuestionPartsController {
+public abstract class QuestionPartsController {
 
-    void initParts(Question question, VBox answerbox, File file);
 
+    abstract void initParts(Question question, VBox answerbox, File file);
+
+    abstract ArrayList getParts();
+
+    public abstract String getCorrectAnswer();
 }

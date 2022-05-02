@@ -20,6 +20,7 @@ public class McsController extends AbstractMC{
     private boolean disabled=false;
     public McsController(Question question,ArrayList<Parts> parts){
         super(question,parts);
+        this.parts=parts;
     }
 
     @Override
