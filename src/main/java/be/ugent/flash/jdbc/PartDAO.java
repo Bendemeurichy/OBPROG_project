@@ -12,4 +12,6 @@ public interface PartDAO {
     void removeParts(int questionId) throws DataAccesException;
 
     void addParts(ArrayList<Parts> parts) throws DataAccesException;
+
+    void addImageParts(ArrayList<ImageParts> imageParts) throws DataAccesException;
 }

@@ -37,7 +37,7 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             ArrayList<ImageParts> parts=new ArrayList<>();
 
             while(data.next()){
-                parts.add(new ImageParts(data.getInt(1),data.getInt(2),data.getBytes(3)));
+                parts.add(new ImageParts(data.getInt(1),data.getBytes(3)));
             }
             return parts;
         }catch (SQLException e){
@@ -68,6 +68,21 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
             }
         }
     }
+    }
+
+    @Override
+    public void addImageParts(ArrayList<ImageParts> imageParts) throws DataAccesException {
+        if ( imageParts!=null){
+            for(ImageParts part:imageParts) {
+                try (PreparedStatement ps = prepare("INSERT INTO parts(question_id,part) VALUES(?, ?)")) {
+                    ps.setInt(1, part.question_id());
+                    ps.setBytes(2,part.part());
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    throw new DataAccesException("could not find answers for question with id " + part.question_id(), e);
+                }
+            }
+        }
     }
 
 

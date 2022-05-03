@@ -29,15 +29,13 @@ public class McsPartsController extends MultipleChoicePartsController{
         if(initialP.isEmpty()){ //in new question, maak hashmap met default value voor antwoord;
             CheckBox box=new CheckBox();
             box.setSelected(true);
-            box.setOnAction(this::updatechange);
             TextArea answerArea =new TextArea();
             partsStyling(box, answerArea);
-            BeheerdersinterfaceCompanion companion=new BeheerdersinterfaceCompanion();
+            new BeheerdersinterfaceCompanion().addParts(new Parts(question.question_id(),""),db);
             loadParts();
         } else {
             for(Parts part:initialP) {
                 CheckBox box = new CheckBox();
-                box.setOnAction(this::updatechange);
                 TextArea answerArea = new TextArea(part.part());
                 partsStyling(box, answerArea);
                 loadParts();
@@ -45,6 +43,14 @@ public class McsPartsController extends MultipleChoicePartsController{
             }
         }
 
+    }
+
+    public ArrayList<Parts> getParts() {
+        ArrayList<Parts> changed=new ArrayList<>();
+        for(TextArea area:partslist){
+            changed.add(new Parts(question.question_id(),area.getText()));
+        }
+        return changed;
     }
     @Override
     public String getCorrectAnswer() {
@@ -60,8 +66,6 @@ public class McsPartsController extends MultipleChoicePartsController{
         throw new IllegalArgumentException("Er moet exact één antwoord aangeduid zijn");
     }
 
-    public void updatechange(ActionEvent event) {
-    }
 
     protected void selectCorrect() {
         for(CheckBox box:boxlist) {
@@ -90,7 +94,6 @@ public class McsPartsController extends MultipleChoicePartsController{
 
     public void addPart(ActionEvent event) {
         CheckBox box=new CheckBox();
-        box.setOnAction(this::updatechange);
         TextArea answerArea=new TextArea();
         partsStyling(box, answerArea);
         loadParts();

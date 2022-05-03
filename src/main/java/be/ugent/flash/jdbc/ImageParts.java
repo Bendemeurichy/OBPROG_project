@@ -1,4 +1,4 @@
 package be.ugent.flash.jdbc;
 
-public record ImageParts(int part_id, int question_id, byte[] part){
+public record ImageParts( int question_id, byte[] part){
 }

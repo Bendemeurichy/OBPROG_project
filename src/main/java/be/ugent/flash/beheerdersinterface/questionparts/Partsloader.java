@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
+import be.ugent.flash.jdbc.ImageParts;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 import javafx.scene.layout.VBox;
@@ -18,6 +19,10 @@ public class Partsloader {
     }
 
     public ArrayList<Parts> getParts() {
+        return controller.getParts();
+    }
+
+    public ArrayList<ImageParts> getImageParts(){
         return controller.getParts();
     }
 

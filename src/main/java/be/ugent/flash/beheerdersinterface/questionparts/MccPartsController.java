@@ -6,6 +6,7 @@ import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
@@ -33,7 +34,6 @@ public class MccPartsController extends MultipleChoicePartsController {
             BeheerdersinterfaceCompanion companion=new BeheerdersinterfaceCompanion();
             companion.addParts(new Parts(question.question_id(),""),file);
             System.out.println(getCorrectAnswer());
-            companion.addCorrectQuestion(question,getCorrectAnswer(),file);
             loadParts();
         } else {
             for(Parts part:initialP) {

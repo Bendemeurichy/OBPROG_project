@@ -1,9 +1,11 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
-import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.*;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -40,16 +42,8 @@ public abstract class MultipleChoicePartsController extends QuestionPartsControl
         answerbox.getChildren().add(partpane);
     }
 
-    public abstract void addPart(ActionEvent event);
+    abstract void addPart(ActionEvent event);
 
-    @Override
-    ArrayList<?> getParts() {
-        ArrayList<Parts> changed=new ArrayList<>();
-        for(TextArea area:partslist){
-            changed.add(new Parts(question.question_id(),area.getText()));
-        }
-        return changed;
-    }
 
     @Override
     public abstract String getCorrectAnswer();

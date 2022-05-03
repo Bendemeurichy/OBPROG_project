@@ -11,5 +11,5 @@ public interface QuestionDAO {
 
     void updateQuestion(Question question) throws DataAccesException;
 
-    Question addQuestion(String text, String s) throws DataAccesException;
+    Question addQuestion(String text, String s, String s1) throws DataAccesException;
 }

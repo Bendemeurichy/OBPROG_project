@@ -8,7 +8,6 @@ import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.beans.Observable;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -141,9 +140,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             savebuttons.getChildren().addAll(save,recover,preview);
             savebuttons.setAlignment(Pos.CENTER_RIGHT);
             modifyQuestion.getChildren().add(savebuttons);
-            inhoud.disableProperty().bind((new SimpleBooleanProperty(changed)).
-                  or(textpart.textProperty().isNotEqualTo(question.text_part())).
-                    or(titleEditor.textProperty().isNotEqualTo(question.title())));
+            inhoud.disableProperty().bind((textpart.textProperty().isNotEqualTo(question.text_part())).
+                    or(titleEditor.textProperty().isNotEqualTo(question.title()))
+                    );
         } else {
             remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
             modifyQuestion.getChildren().clear();
@@ -153,7 +152,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     private void showPreview() {
-        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),partsloader.getCorrectAnswer());
+        Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
 
         questionpreview.showPreview(changedQuestion,partsloader.getParts());
         questionpreview.showPreview(changedQuestion,partsloader.getParts());
@@ -165,9 +164,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             new BeheerdersinterfaceCompanion().save(this,changedQuestion,questiondb,partsloader);
         } catch (IllegalArgumentException e){
             new ErrorDialog().display(e.getMessage());
-            initialize();
         }
-        currentquestion=null;
 
     }
 

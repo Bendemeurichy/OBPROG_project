@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BeheerdersinterfaceCompanion {
     public void removeQuestion(BeheerdersinterfaceController controller, TableView<Question> inhoud, File file){
@@ -29,7 +30,11 @@ public class BeheerdersinterfaceCompanion {
             DataAccesContext dp= new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext();
             dp.getQuestionDAO().updateQuestion(question);
             dp.getPartDAO().removeParts(question.question_id());
-            dp.getPartDAO().addParts(partsloader.getParts());
+            if(Objects.equals(question.question_type(), "mci")){
+                dp.getPartDAO().addImageParts(partsloader.getImageParts());
+            }else {
+                dp.getPartDAO().addParts(partsloader.getParts());
+            }
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
@@ -52,5 +57,8 @@ public class BeheerdersinterfaceCompanion {
         }  catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void addImageParts(Parts parts, File file) {
     }
 }

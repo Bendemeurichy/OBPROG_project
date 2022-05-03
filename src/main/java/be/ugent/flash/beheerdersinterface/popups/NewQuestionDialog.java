@@ -24,6 +24,9 @@ import java.util.Map;
 public class NewQuestionDialog {
     private final Map<String,String> typemap= Map.of("Meerkeuze (standaard)","mcs","Meerkeuze (compact)","mcc",
             "Meerkeuze (afbeeldingen)","mci","Meerantwoord","mr","Open (tekst)","open","Open (geheel)","openi");
+
+    private final Map<String,String> defaultAnswers= Map.of("mcs","0","mcc","0",
+            "mci","0","mr","F","open","","openi","0");
     private final BeheerdersinterfaceController controller;
     private final TableView<Question> tableview;
     private final File db;
@@ -88,7 +91,8 @@ public class NewQuestionDialog {
 
     private void makequestion(ActionEvent event) {
         try {
-            Question addedQuesiton=new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),typemap.get(types.getSelectionModel().getSelectedItem()));
+            Question addedQuesiton=new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),
+                    typemap.get(types.getSelectionModel().getSelectedItem()),defaultAnswers.get(typemap.get(types.getSelectionModel().getSelectedItem())));
             controller.initialize();
             tableview.getSelectionModel().select(addedQuesiton);
             ((Stage) questiontitle.getScene().getWindow()).close();
