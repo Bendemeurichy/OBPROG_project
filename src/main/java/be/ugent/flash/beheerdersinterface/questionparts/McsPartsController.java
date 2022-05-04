@@ -1,6 +1,7 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Parts;
@@ -18,8 +19,8 @@ public class McsPartsController extends MultipleChoicePartsController{
 
     protected final ArrayList<TextArea> partslist=new ArrayList<>();
     @Override
-    public void initParts(Question question, VBox answerbox, File db) {
-        super.initParts(question,answerbox,db);
+    public void initParts(Question question, VBox answerbox, File db, BeheerdersinterfaceController interfacecontroller) {
+        super.initParts(question,answerbox,db,interfacecontroller);
         ArrayList<Parts> initialP;
         try {
             initialP=new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getPartDAO().specificPart(question.question_id());
@@ -85,6 +86,7 @@ public class McsPartsController extends MultipleChoicePartsController{
     }
 
     protected void removePart(ActionEvent event) {
+        interfacecontroller.ischanged();
         int index=crossbox.indexOf(event.getSource());
         crossbox.remove(index);
         partslist.remove(index);
@@ -93,6 +95,7 @@ public class McsPartsController extends MultipleChoicePartsController{
     }
 
     public void addPart(ActionEvent event) {
+        interfacecontroller.ischanged();
         CheckBox box=new CheckBox();
         TextArea answerArea=new TextArea();
         partsStyling(box, answerArea);
@@ -100,13 +103,19 @@ public class McsPartsController extends MultipleChoicePartsController{
     }
 
     protected void partsStyling(CheckBox box, TextArea answerArea) {
+        box.setOnAction(event->updatechange());
         answerArea.setWrapText(true);
+        answerArea.setOnKeyTyped(event->updatechange());
         answerArea.setPrefSize(450,50);
         partslist.add(answerArea);
         Button cross=new Button("X");
         cross.setOnAction(this::removePart);
         boxlist.add(box);
         crossbox.add(cross);
+    }
+
+    private void updatechange() {
+        interfacecontroller.ischanged();
     }
 
 

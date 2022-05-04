@@ -31,7 +31,6 @@ public class Preview{
         }
     }
 
-
     public void closePreview() {
         previewStage.close();
     }

@@ -1,13 +1,15 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
@@ -17,8 +19,8 @@ public class MccPartsController extends MultipleChoicePartsController {
     // door het verschil van textfield met textarea tov mcs veel duplicatie, veel errors met overerving
     protected ArrayList<TextField> partslist=new ArrayList<>();
     @Override
-    public void initParts(Question question, VBox answerbox, File file) {
-        super.initParts(question,answerbox,file);
+    public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
+        super.initParts(question,answerbox,file,interfacecontroller);
         ArrayList<Parts> initialP;
         try {
             initialP=new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext().getPartDAO().specificPart(question.question_id());
@@ -59,6 +61,7 @@ public class MccPartsController extends MultipleChoicePartsController {
 
     @Override
     public void addPart(ActionEvent event) {
+        interfacecontroller.ischanged();
         CheckBox box=new CheckBox();
         box.setOnAction(this::updatechange);
         TextField answerArea=new TextField();
@@ -77,10 +80,10 @@ public class MccPartsController extends MultipleChoicePartsController {
     }
 
     private void updatechange(ActionEvent event) {
-
+        interfacecontroller.ischanged();
     }
 
-    ArrayList<?> getParts() {
+    ArrayList<Parts> getParts() {
         ArrayList<Parts> changed=new ArrayList<>();
         for(TextField area:partslist){
             changed.add(new Parts(question.question_id(),area.getText()));
@@ -91,6 +94,7 @@ public class MccPartsController extends MultipleChoicePartsController {
 
     protected void partsStyling(CheckBox box, TextField answerfield){
         answerfield.setPrefSize(450,50);
+        answerfield.setOnKeyTyped(event -> updatechange(null));
         partslist.add(answerfield);
         Button cross=new Button("X");
         cross.setOnAction(this::removePart);
@@ -99,6 +103,7 @@ public class MccPartsController extends MultipleChoicePartsController {
     }
 
     protected void removePart(ActionEvent event) {
+        interfacecontroller.ischanged();
         int index=crossbox.indexOf(event.getSource());
         crossbox.remove(index);
         partslist.remove(index);

@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -20,10 +21,12 @@ public abstract class MultipleChoicePartsController extends QuestionPartsControl
 
     protected final ArrayList<CheckBox> boxlist=new ArrayList<>();
     protected final ArrayList<Button> crossbox=new ArrayList<>();
+    protected BeheerdersinterfaceController interfacecontroller;
     protected final Map<String,String> labelmessage=Map.of("mcs","keuzes worden onder elkaar getoond - met knoppen A,B,C...","mcc","Keuzes worden naast elkaar op knoppen getoond",
             "mci","Keuzes zijn antwoorden die op knoppen worden getoond","mr","Keuzes worden onder elkaar getoond met checkboxes naast");
     @Override
-    void initParts(Question question, VBox answerbox, File file) {
+    void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
+        this.interfacecontroller=interfacecontroller;
         this.question=question;
         answerPane.setVgap(5);
         answerPane.setHgap(5);

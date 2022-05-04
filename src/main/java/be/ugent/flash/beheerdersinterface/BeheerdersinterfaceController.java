@@ -8,6 +8,7 @@ import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,9 +43,9 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     public final GridPane algemeen=new GridPane();
     private final File questiondb;
     private  Question currentquestion;
-    private boolean changed=false;
     private Preview questionpreview;
     private final Partsloader partsloader=new Partsloader();
+    private SimpleBooleanProperty changed=new SimpleBooleanProperty(false);
 
     private final Map<String,String> typemap= Map.of("mcs","Meerkeuze (standaard)","mcc","Meerkeuze (compact)",
             "mci","Meerkeuze (afbeeldingen)","mr","Meerantwoord","open","Open (tekst)","openi","Open (geheel)");
@@ -54,6 +55,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     public void initialize() {
+        changed.set(false);
         inhoud.disableProperty().unbind();
         inhoud.setDisable(false);
         currentquestion=null;
@@ -81,7 +83,6 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     public void loadQuestion(Question question){
         if(question!=null){
-            changed=false;
             answers.getChildren().clear();
             modifyQuestion.setAlignment(Pos.TOP_LEFT);
             algemeen.getChildren().clear();
@@ -122,12 +123,12 @@ public class  BeheerdersinterfaceController extends MenuOpties{
                 new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this).showimage();
             }
             modifyQuestion.getChildren().add(answers);
-            partsloader.loadParts(answers,question,questiondb);
+            partsloader.loadParts(answers,question,questiondb,this);
             HBox savebuttons=new HBox();
             Button save=new Button("opslaan");
             save.setOnAction(this::updateQuestion);
             Button recover=new Button("herstel");
-            recover.setOnAction(event -> loadQuestion(currentquestion));
+            recover.setOnAction(this::restore);
             Button preview=new Button("preview");
             questionpreview=new Preview(pane);
 
@@ -141,7 +142,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             savebuttons.setAlignment(Pos.CENTER_RIGHT);
             modifyQuestion.getChildren().add(savebuttons);
             inhoud.disableProperty().bind((textpart.textProperty().isNotEqualTo(question.text_part())).
-                    or(titleEditor.textProperty().isNotEqualTo(question.title()))
+                    or(titleEditor.textProperty().isNotEqualTo(question.title()).or(changed))
                     );
         } else {
             remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
@@ -151,10 +152,14 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         }
     }
 
+    private void restore(ActionEvent event) {
+        changed.set(false);
+        loadQuestion(currentquestion);
+    }
+
     private void showPreview() {
         Question changedQuestion= new Question(currentquestion.question_id(),titleEditor.getText(),textpart.getText(), (byte[]) picturepart.getUserData(), currentquestion.question_type(),null);
 
-        questionpreview.showPreview(changedQuestion,partsloader.getParts());
         questionpreview.showPreview(changedQuestion,partsloader.getParts());
     }
 
@@ -169,7 +174,7 @@ public class  BeheerdersinterfaceController extends MenuOpties{
     }
 
     public void ischanged() {
-        changed=true;
+        changed.set(true);
     }
 
     public void addQuestion(){

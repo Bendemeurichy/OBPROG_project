@@ -1,6 +1,7 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
+import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -21,8 +22,8 @@ public class MciPartsController extends MultipleChoicePartsController {
     public ArrayList<ImageView> parts=new ArrayList<>();
 
     @Override
-    public void initParts(Question question, VBox answerbox, File file) {
-        super.initParts(question,answerbox,file);
+    public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
+        super.initParts(question,answerbox,file,interfacecontroller);
         ArrayList<ImageParts> initialP;
         try {
             initialP=new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext().getPartDAO().specificImagepart(question.question_id());
@@ -61,6 +62,7 @@ public class MciPartsController extends MultipleChoicePartsController {
 
 
     private void partsStyling(CheckBox box, ImageView answerArea) {
+        box.setOnAction(event -> updatechange());
         answerArea.setPreserveRatio(true);
         answerArea.setFitWidth(150);
         answerArea.setFitHeight(100);
@@ -69,6 +71,10 @@ public class MciPartsController extends MultipleChoicePartsController {
         cross.setOnAction(this::removePart);
         boxlist.add(box);
         crossbox.add(cross);
+    }
+
+    private void updatechange() {
+        interfacecontroller.ischanged();
     }
 
     private void selectCorrect() {
@@ -103,6 +109,7 @@ public class MciPartsController extends MultipleChoicePartsController {
     }
 
     public void addImagePart(MouseEvent event) {
+        interfacecontroller.ischanged();
         if(event.getButton().equals(MouseButton.PRIMARY)){
             if(event.getClickCount()==2){
                 FileChooser chooser = new FileChooser();
@@ -149,6 +156,7 @@ public class MciPartsController extends MultipleChoicePartsController {
     }
 
     protected void removePart(ActionEvent event) {
+        interfacecontroller.ischanged();
         int index=crossbox.indexOf(event.getSource());
         crossbox.remove(index);
         parts.remove(index);
@@ -157,6 +165,7 @@ public class MciPartsController extends MultipleChoicePartsController {
     }
     @Override
     void addPart(ActionEvent event) {
+        interfacecontroller.ischanged();
         CheckBox box=new CheckBox();
         ImageView view=new ImageView();
         view.setOnMouseClicked(this::addImagePart);
