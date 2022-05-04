@@ -17,6 +17,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MciPartsController extends MultipleChoicePartsController {
     public ArrayList<ImageView> parts=new ArrayList<>();
@@ -39,7 +40,7 @@ public class MciPartsController extends MultipleChoicePartsController {
                 Image image=new Image(stream);
                 imageAnswer = new ImageView();
                 imageAnswer.setImage(image);
-                imageAnswer.setUserData(stream.readAllBytes());
+                imageAnswer.setUserData(null);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -50,8 +51,22 @@ public class MciPartsController extends MultipleChoicePartsController {
         } else {
             for(ImageParts part:initialP) {
                 CheckBox box = new CheckBox();
-                ImageView imageAnswer = new ImageView(new Image(new ByteArrayInputStream(part.part())));
-                imageAnswer.setUserData(part.part());
+                ImageView imageAnswer=new ImageView();
+                if(part.part()==null){
+                    FileInputStream stream;
+                    try {
+                        stream = new FileInputStream("src/main/resources/leeg.png");
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Image image=new Image(stream);
+                    imageAnswer.setImage(image);
+                    imageAnswer.setUserData(null);
+                } else {
+                    imageAnswer.setImage((new Image(new ByteArrayInputStream(part.part()))));
+                    imageAnswer.setUserData(part.part());
+                }
+
                 imageAnswer.setOnMouseClicked(this::addImagePart);
                 partsStyling(box, imageAnswer);
                 loadParts();
@@ -94,7 +109,7 @@ public class MciPartsController extends MultipleChoicePartsController {
                 try {
                     FileInputStream stream = new FileInputStream("src/main/resources/leeg.png");
                     Image image=new Image(stream);
-                    view.setUserData(stream.readAllBytes());
+                    view.setUserData(null);
                     view.setImage(image);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -137,7 +152,11 @@ public class MciPartsController extends MultipleChoicePartsController {
     public ArrayList<ImageParts> getParts() {
         ArrayList<ImageParts> changed=new ArrayList<>();
         for(ImageView area:parts){
-            changed.add(new ImageParts(question.question_id(),(byte[])area.getUserData()));
+            if( area.getUserData()==null){
+                changed.add(new ImageParts(question.question_id(),null));
+        } else {
+                changed.add(new ImageParts(question.question_id(),(byte[])area.getUserData()));
+            }
         }
         return changed;
     }
@@ -168,6 +187,7 @@ public class MciPartsController extends MultipleChoicePartsController {
         interfacecontroller.ischanged();
         CheckBox box=new CheckBox();
         ImageView view=new ImageView();
+        view.setUserData(null);
         view.setOnMouseClicked(this::addImagePart);
         partsStyling(box,view);
         loadParts();

@@ -29,7 +29,6 @@ public class MenuOpties {
             CreateTables.createPartsTable(connection);
             new SceneManager(((Stage) pane.getScene().getWindow())).loadDB(file);
         }
-        //Todo: open filechooser om nieuw bestand te open en wissel naar geopend bestand: save dialog sqlite::name
     }
 
     public void openDB(){

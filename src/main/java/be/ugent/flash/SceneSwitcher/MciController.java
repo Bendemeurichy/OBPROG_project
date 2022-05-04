@@ -43,13 +43,17 @@ public class MciController extends AbstractMC{
     public void initialize(){
         super.initialize();
         for(int i=0; i<parts.size();i++){
-            ImageView answer= new ImageView(new Image(new ByteArrayInputStream(parts.get(i).part())));
-            Button temp=new Button();
-            temp.getStyleClass().add("imagebutton");
-            temp.setOnAction(this::answer);
-            temp.setUserData(i);
-            temp.setGraphic(answer);
-            buttons.getChildren().add(temp);
+            ImageView answer;
+            if (parts.get(i).part()!=null){
+                answer = new ImageView(new Image(new ByteArrayInputStream(parts.get(i).part())));
+
+                Button temp = new Button();
+                temp.getStyleClass().add("imagebutton");
+                temp.setOnAction(this::answer);
+                temp.setUserData(i);
+                temp.setGraphic(answer);
+                buttons.getChildren().add(temp);
+            }
         }
         buttons.setDisable(disabled);
     }

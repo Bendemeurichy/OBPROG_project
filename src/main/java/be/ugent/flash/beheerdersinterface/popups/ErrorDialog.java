@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -30,7 +31,7 @@ public class ErrorDialog {
         box.setPadding(new Insets(5,5,5,5));
         box.setBackground(new Background(new BackgroundFill(Color.rgb(255,160,160), CornerRadii.EMPTY, Insets.EMPTY)));
         errormessage.setTextFill(Color.rgb(255,255,255));
-        errormessage.setAlignment(Pos.CENTER);
+        errormessage.setTextAlignment(TextAlignment.CENTER);
         errormessage.setWrapText(true);
         errormessage.setFont(Font.font(null,FontWeight.BOLD,14));
         box.setPrefSize(275,150);
