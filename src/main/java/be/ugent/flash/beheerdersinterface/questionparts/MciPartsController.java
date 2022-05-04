@@ -117,7 +117,6 @@ public class MciPartsController extends MultipleChoicePartsController {
                         Image image = new Image(new ByteArrayInputStream(bytes));
                         view.setUserData(bytes);
                         view.setImage(image);
-                        partsStyling(box,view);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
