@@ -75,7 +75,7 @@ public class JDBCQuestionDAO extends JDBCAbstractDAO implements QuestionDAO {
 
     @Override
     public Question addQuestion(String title, String type, String s1) throws DataAccesException {
-        Question generatedQuestion = null;
+        Question generatedQuestion;
         try(PreparedStatement ps = prepare("Insert INTO questions(title,question_type,correct_answer) Values(?,?,?)")){
             ps.setString(1,title);
             ps.setString(2,type);

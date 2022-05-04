@@ -3,10 +3,7 @@ package be.ugent.flash.beheerdersinterface.questionparts;
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.control.*;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 

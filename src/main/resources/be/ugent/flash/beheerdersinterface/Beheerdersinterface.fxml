@@ -28,7 +28,7 @@
          <children>
             <VBox prefHeight="575.0" prefWidth="300.0">
                <children>
-                  <TableView fx:id="inhoud" prefHeight="762.0" prefWidth="304.0">
+                  <TableView fx:id="contents" prefHeight="762.0" prefWidth="304.0">
                     <columns>
                       <TableColumn fx:id="titel" prefWidth="150.0" text="Titel" />
                       <TableColumn fx:id="type" minWidth="0.0" prefWidth="150.0" text="Type" />

@@ -1,6 +1,5 @@
 package be.ugent.flash.beheerdersinterface;
 
-import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
 import be.ugent.flash.jdbc.*;
 import javafx.scene.control.TableView;
@@ -10,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * klasse om minder javafx intensieve methoden te verwerken zoals vragen updaten, verwijderen, etc.
+ */
 public class BeheerdersinterfaceCompanion {
     public void removeQuestion(BeheerdersinterfaceController controller, TableView<Question> inhoud, File file){
         int questionId=inhoud.getSelectionModel().getSelectedItem().question_id();
@@ -23,9 +25,8 @@ public class BeheerdersinterfaceCompanion {
         controller.initialize();
     }
 
+    //update de db, parts van vraag worden eerst allemaal verwijderd en dan opnieuw toegevoegd om methodes in dao makkelijk te houden
     public void save(BeheerdersinterfaceController controller, Question question, File file, Partsloader partsloader){
-        //update db
-        //TODO parts ook opslaan: eerst allemaal weg, dan opslaan
         try{
             DataAccesContext dp= new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext();
             dp.getQuestionDAO().updateQuestion(question);
@@ -50,6 +51,7 @@ public class BeheerdersinterfaceCompanion {
         }
     }
 
+    //update correcte vraag in db
     public void addCorrectQuestion(Question question, String correctAnswer,File db) {
         try{
             Question changed=new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
@@ -58,7 +60,4 @@ public class BeheerdersinterfaceCompanion {
             throw new RuntimeException(e);
         }
     }
-
-    public void addImageParts(Parts parts, File file) {
-    }
-}
+ }

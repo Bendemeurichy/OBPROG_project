@@ -17,10 +17,14 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * popupscherm dat een bericht neemt met de methode display die dan de gepaste melding geeft aan de gebruiker
+ * als deze iets verkeerd heeft gedaan (verkeerd antwoord,....)
+ */
 public class ErrorDialog {
     @FXML
-    public Button ok=new Button("OK");
-    public Label errormessage=new Label();
+    public final Button ok=new Button("OK");
+    public final Label errormessage=new Label();
 
     public void display(String message) {
         Stage popupwindow =new Stage();

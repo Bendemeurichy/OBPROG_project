@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 
+//factories voor partcontrollers
 public interface QuestionPartsFactory {
-    public QuestionPartsController create(Question question, VBox answerbox, File db, BeheerdersinterfaceController controller);
+    QuestionPartsController create(Question question, VBox answerbox, File db, BeheerdersinterfaceController controller);
 }

@@ -1,5 +1,5 @@
 package be.ugent.flash.beheerdersinterface.popups;
-//source popupwindow:http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php
+
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.DataAccesException;
@@ -21,16 +21,22 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.Map;
 
+/**
+ * popupvenster om een nieuwe vraag aan te maken
+ * //source popupwindow:http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php
+ */
 public class NewQuestionDialog {
+
+    //map om uit juiste string in combobox het juiste vraagtype te halen
     private final Map<String,String> typemap= Map.of("Meerkeuze (standaard)","mcs","Meerkeuze (compact)","mcc",
             "Meerkeuze (afbeeldingen)","mci","Meerantwoord","mr","Open (tekst)","open","Open (geheel)","openi");
-
+    //map met default correcte antwoorden per vraagtype om deze al op te slaan in de db (nodige parts bij het maken van een nieuwe vraag
+    //wordt geregeld in de partcontrollers
     private final Map<String,String> defaultAnswers= Map.of("mcs","0","mcc","0",
             "mci","0","mr","F","open","","openi","0");
     private final BeheerdersinterfaceController controller;
     private final TableView<Question> tableview;
     private final File db;
-
     @FXML
     public final ComboBox<String> types=new ComboBox<>();
     public final TextField questiontitle=new TextField();
@@ -40,6 +46,8 @@ public class NewQuestionDialog {
         this.controller=controller;
         this.tableview=tableView;
     }
+
+    //methode toont het popupvenster en zorgt dat de stage loopt zolang er niet op ok is gedrukt of is geanulleerd
     public void display(){
         Stage popupwindow=new Stage();
 
@@ -89,6 +97,7 @@ public class NewQuestionDialog {
         popupwindow.showAndWait();
     }
 
+    //maken van nieuwe vraag, gekoppeld aan ok knop
     private void makequestion(ActionEvent event) {
         try {
             Question addedQuesiton=new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),

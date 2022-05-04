@@ -4,7 +4,6 @@ import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
-import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;

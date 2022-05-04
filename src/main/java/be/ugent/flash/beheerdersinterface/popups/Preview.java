@@ -12,6 +12,9 @@ import javafx.stage.StageStyle;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * popupvenster om de preview van de vraag in te laden, gebruikt controllers uit deel 1 en scenechanger om fxml in te laden
+ */
 public class Preview{
     private final Map<String, QuestionFactory> factories= Map.of("mcs",new McsFactory(),"mcc",new MccFactory(),
             "mci",new MciFactory(),"mr",new MrFactory(),"open",new OpenFactory(),"openi",new OpenIFactory());

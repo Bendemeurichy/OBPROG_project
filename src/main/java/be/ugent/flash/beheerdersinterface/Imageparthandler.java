@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * klasse verwerkt de meeste afbeeldinggerelateerde methodes om het photopart van de vragen in orde te brengen
+ */
 public class Imageparthandler {
     private final ImageView picturepart;
     private final VBox photobox;

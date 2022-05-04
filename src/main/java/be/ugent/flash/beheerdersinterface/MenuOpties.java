@@ -12,6 +12,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * opstartscherm met optie om nieuwe db te maken en bestaande te openen in beheerdersinterface.
+ * is ook de klasse waar de menubar code in staat
+ */
 public class MenuOpties {
     public GridPane pane;
     public void exitProgram(){

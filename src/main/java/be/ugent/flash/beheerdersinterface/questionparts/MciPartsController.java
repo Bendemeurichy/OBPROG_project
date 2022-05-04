@@ -1,6 +1,5 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
-import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
 import be.ugent.flash.jdbc.*;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MciPartsController extends MultipleChoicePartsController {
     public ArrayList<ImageView> parts=new ArrayList<>();
@@ -46,7 +44,6 @@ public class MciPartsController extends MultipleChoicePartsController {
             }
             imageAnswer.setOnMouseClicked(this::addImagePart);
             partsStyling(box, imageAnswer);
-            new BeheerdersinterfaceCompanion().addImageParts(new Parts(question.question_id(),null),file);
             loadParts();
         } else {
             for(ImageParts part:initialP) {

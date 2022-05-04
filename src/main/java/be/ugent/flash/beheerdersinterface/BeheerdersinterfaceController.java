@@ -27,25 +27,31 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.Map;
 
+
+/**
+ * zeer grote klasse waar de meest javafx intensieve methodes worden verwerkt, zeer veel lijnen "opmaak" om de beheerdersinterface
+ * er deftig uit te laten zien
+ */
 public class  BeheerdersinterfaceController extends MenuOpties{
     @FXML
-    public TableView<Question> inhoud;
+    public TableView<Question> contents;
     public TableColumn<Question,String> titel;
     public TableColumn<Question,String> type;
-    public VBox fotobox;
-    public HBox fotobuttons;
+    public VBox photobox;
+    public HBox photobuttons;
     public final ImageView picturepart= new ImageView();
     public final TextField titleEditor=new TextField();
     public final TextArea textpart = new TextArea();
     public final VBox answers = new VBox();
     public VBox modifyQuestion;
     public Button remove;
-    public final GridPane algemeen=new GridPane();
+    public final GridPane general =new GridPane();
     private final File questiondb;
     private  Question currentquestion;
     private Preview questionpreview;
     private final Partsloader partsloader=new Partsloader();
-    private SimpleBooleanProperty changed=new SimpleBooleanProperty(false);
+    @SuppressWarnings("FieldMayBeFinal")
+    private final SimpleBooleanProperty changed=new SimpleBooleanProperty(false);
 
     private final Map<String,String> typemap= Map.of("mcs","Meerkeuze (standaard)","mcc","Meerkeuze (compact)",
             "mci","Meerkeuze (afbeeldingen)","mr","Meerantwoord","open","Open (tekst)","openi","Open (geheel)");
@@ -54,10 +60,11 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     }
 
+    //laad beheerdersinterface in, wordt ook gebruikt om tableview te refreshen
     public void initialize() {
         changed.set(false);
-        inhoud.disableProperty().unbind();
-        inhoud.setDisable(false);
+        contents.disableProperty().unbind();
+        contents.setDisable(false);
         currentquestion=null;
         titleEditor.clear();
         textpart.clear();
@@ -71,56 +78,57 @@ public class  BeheerdersinterfaceController extends MenuOpties{
         }
         titel.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().title()));
         type.setCellValueFactory(q -> new SimpleStringProperty(typemap.get(q.getValue().question_type())));
-        inhoud.setItems(questions);
-        inhoud.getSelectionModel().selectedItemProperty().addListener(this::selectQuestion);
-        remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
+        contents.setItems(questions);
+        contents.getSelectionModel().selectedItemProperty().addListener(this::selectQuestion);
+        remove.disableProperty().bind(contents.getSelectionModel().selectedItemProperty().isNull());
     }
 
     private void selectQuestion(Observable observable) {
-        currentquestion=inhoud.getSelectionModel().getSelectedItem();
+        currentquestion= contents.getSelectionModel().getSelectedItem();
         loadQuestion(currentquestion);
     }
 
+    //laad de gekozen vraag uit de tableview (zorgt dat alle knoppen juist worden gebind en gedisabled worden, roept partscontrollers op,...)
     public void loadQuestion(Question question){
         if(question!=null){
             answers.getChildren().clear();
             modifyQuestion.setAlignment(Pos.TOP_LEFT);
-            algemeen.getChildren().clear();
+            general.getChildren().clear();
             modifyQuestion.getChildren().clear();
             picturepart.setImage(null);
             picturepart.setUserData(null);
-            modifyQuestion.getChildren().add(algemeen);
-            algemeen.setHgap(10);
-            algemeen.setVgap(10);
+            modifyQuestion.getChildren().add(general);
+            general.setHgap(10);
+            general.setVgap(10);
             modifyQuestion.setSpacing(5);
             picturepart.setPreserveRatio(true);
             picturepart.setFitHeight(100);
             picturepart.setFitWidth(150);
             modifyQuestion.setPadding(new Insets(5,5,5,5));
 
-            algemeen.add(new Label("Titel"), 0, 0);
+            general.add(new Label("Titel"), 0, 0);
             titleEditor.setText(currentquestion.title());
-            algemeen.add(titleEditor, 1, 0);
-            algemeen.add(new Label("Type"), 0, 1);
-            algemeen.add(new Label(typemap.get(question.question_type())), 1, 1);
-            algemeen.add(new Label("Tekst"), 0, 2);
+            general.add(titleEditor, 1, 0);
+            general.add(new Label("Type"), 0, 1);
+            general.add(new Label(typemap.get(question.question_type())), 1, 1);
+            general.add(new Label("Tekst"), 0, 2);
             textpart.setText(question.text_part());
             textpart.setWrapText(true);
-            algemeen.add(textpart, 1, 2);
-            algemeen.add(new Label("Afbeelding"), 0, 3);
-            fotobox = new VBox();
-            fotobuttons = new HBox();
-            VBox imagepart= new VBox(fotobox,fotobuttons);
-            algemeen.add(imagepart, 1, 3);
+            general.add(textpart, 1, 2);
+            general.add(new Label("Afbeelding"), 0, 3);
+            photobox = new VBox();
+            photobuttons = new HBox();
+            VBox imagepart= new VBox(photobox, photobuttons);
+            general.add(imagepart, 1, 3);
 
             if (question.image_part() == null){
                 Button voegtoe = new Button("Voeg afbeelding toe");
-                voegtoe.setOnAction(new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this)::chooseImage);
-                fotobox.getChildren().add(voegtoe);
+                voegtoe.setOnAction(new Imageparthandler(picturepart, photobox, photobuttons,pane,this)::chooseImage);
+                photobox.getChildren().add(voegtoe);
             } else {
                 picturepart.setUserData(question.image_part());
                 picturepart.setImage(new Image(new ByteArrayInputStream(question.image_part())));
-                new Imageparthandler(picturepart, fotobox,fotobuttons,pane,this).showimage();
+                new Imageparthandler(picturepart, photobox, photobuttons,pane,this).showimage();
             }
             modifyQuestion.getChildren().add(answers);
             partsloader.loadParts(answers,question,questiondb,this);
@@ -136,16 +144,16 @@ public class  BeheerdersinterfaceController extends MenuOpties{
             preview.setOnMouseReleased(event->questionpreview.closePreview());  //TODO niet optimaal: hoe while action?
             preview.setOnMouseExited(mouseEvent -> questionpreview.closePreview());
 
-            save.disableProperty().bind(inhoud.disableProperty().not());
-            recover.disableProperty().bind(inhoud.disableProperty().not());
+            save.disableProperty().bind(contents.disableProperty().not());
+            recover.disableProperty().bind(contents.disableProperty().not());
             savebuttons.getChildren().addAll(save,recover,preview);
             savebuttons.setAlignment(Pos.CENTER_RIGHT);
             modifyQuestion.getChildren().add(savebuttons);
-            inhoud.disableProperty().bind((textpart.textProperty().isNotEqualTo(question.text_part())).
+            contents.disableProperty().bind((textpart.textProperty().isNotEqualTo(question.text_part())).
                     or(titleEditor.textProperty().isNotEqualTo(question.title()).or(changed))
                     );
         } else {
-            remove.disableProperty().bind(inhoud.getSelectionModel().selectedItemProperty().isNull());
+            remove.disableProperty().bind(contents.getSelectionModel().selectedItemProperty().isNull());
             modifyQuestion.getChildren().clear();
             modifyQuestion.getChildren().add(new Label("(geen vraag geselecteerd)"));
             modifyQuestion.setAlignment(Pos.CENTER);
@@ -173,15 +181,16 @@ public class  BeheerdersinterfaceController extends MenuOpties{
 
     }
 
+    //verandert de waarde van de booleanproperty die is gebind aan de disableproperty van de tableview
     public void ischanged() {
         changed.set(true);
     }
 
     public void addQuestion(){
-        new NewQuestionDialog(this,inhoud,questiondb).display();
+        new NewQuestionDialog(this, contents,questiondb).display();
     }
 
     public void removeQuestion(){
-        new BeheerdersinterfaceCompanion().removeQuestion(this,inhoud,questiondb);
+        new BeheerdersinterfaceCompanion().removeQuestion(this, contents,questiondb);
     }
 }
