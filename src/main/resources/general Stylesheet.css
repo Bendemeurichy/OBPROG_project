@@ -55,6 +55,7 @@ TextFlow {
 }
 
 .check-box{
+    -fx-cell-size: 5;
     -fx-background-radius: 10;
     -fx-border-color: #44465C;
     -fx-border-radius: 5;
