@@ -18,10 +18,10 @@ public class MrPartsController extends McsPartsController {
         for (CheckBox checkBox : boxlist) {
             answer.append(checkBox.isSelected() ? "T" : "F");
         }
-        if (answer.toString().matches("F*T+F*")){
+        if (! answer.isEmpty()){
             return String.valueOf(answer);
         } else {
-            throw new IllegalArgumentException("Er moet minstens 1 oplossing gekozen zijn");
+            throw new IllegalArgumentException("Antwoordenlijst mag niet leeg zijn");
         }
     }
 }

@@ -66,6 +66,8 @@ public class McsPartsController extends MultipleChoicePartsController {
         }
         if (checked.size() == 1){
             return boxlist.indexOf(checked.get(0)) + "";
+        } else if (checked.isEmpty()) {
+            throw new IllegalArgumentException("Antwoordenlijst mag niet leeg zijn");
         }
         throw new IllegalArgumentException("Er moet exact één antwoord aangeduid zijn");
     }
