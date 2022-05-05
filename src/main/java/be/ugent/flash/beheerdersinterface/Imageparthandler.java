@@ -59,12 +59,13 @@ public class Imageparthandler {
                 picturepart.setUserData(bytes);
                 picturepart.setImage(image);
                 showimage();
+                controller.ischanged();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        controller.ischanged();
+
     }
 
     public void showimage() {

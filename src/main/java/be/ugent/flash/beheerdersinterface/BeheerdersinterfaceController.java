@@ -142,7 +142,7 @@ public class BeheerdersinterfaceController extends MenuOpties {
             questionpreview = new Preview(pane);
 
             preview.setOnMousePressed(event -> showPreview());
-            preview.setOnMouseReleased(event -> questionpreview.closePreview());  //TODO niet optimaal: hoe while action?
+            preview.setOnMouseReleased(event -> questionpreview.closePreview());
             preview.setOnMouseExited(mouseEvent -> questionpreview.closePreview());
 
             save.disableProperty().bind(contents.disableProperty().not());

@@ -124,7 +124,6 @@ public class MciPartsController extends MultipleChoicePartsController {
     }
 
     public void addImagePart(MouseEvent event) {
-        interfacecontroller.ischanged();
         if (event.getButton().equals(MouseButton.PRIMARY)){
             if (event.getClickCount() == 2){
                 FileChooser chooser = new FileChooser();
@@ -134,6 +133,7 @@ public class MciPartsController extends MultipleChoicePartsController {
                 chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg", "*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
                 File file = chooser.showOpenDialog(answerPane.getScene().getWindow());
                 if (file != null){
+                    interfacecontroller.ischanged();
                     try {
                         byte[] bytes = Files.readAllBytes(Path.of(file.getPath()));
                         Image image = new Image(new ByteArrayInputStream(bytes));
