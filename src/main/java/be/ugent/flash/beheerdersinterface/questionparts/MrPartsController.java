@@ -18,8 +18,7 @@ public class MrPartsController extends McsPartsController {
         for (CheckBox checkBox : boxlist) {
             answer.append(checkBox.isSelected() ? "T" : "F");
         }
-        System.out.println(answer);
-        if (!answer.toString().matches("T")){
+        if (answer.toString().matches("F*T+F*")){
             return String.valueOf(answer);
         } else {
             throw new IllegalArgumentException("Er moet minstens 1 oplossing gekozen zijn");
