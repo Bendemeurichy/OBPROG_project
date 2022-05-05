@@ -1,15 +1,12 @@
 package be.ugent.flash.SceneSwitcher;
 
-import be.ugent.flash.QuestionManager.QuestionManager;
 import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
-import java.util.ArrayList;
-
 public abstract class AbstractMC extends QuestionController {
-    public AbstractMC(Question question, ArrayList parts) {
+    public AbstractMC(Question question) {
         this.questionData = new GeneralQuestion(question);
 
     }

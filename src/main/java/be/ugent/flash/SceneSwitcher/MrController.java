@@ -2,6 +2,7 @@ package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
 import be.ugent.flash.SceneSwitcher.questionDataManager.GeneralQuestion;
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
@@ -34,11 +35,7 @@ public class MrController extends QuestionController {
         try {
             this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
         } catch (DataAccesException e) {
-            try {
-                throw new DataAccesException("kon parts niet vinden", e);
-            } catch (DataAccesException ex) {
-                throw new RuntimeException(ex);
-            }
+            new ErrorDialog().display(e.getMessage());
         }
     }
 

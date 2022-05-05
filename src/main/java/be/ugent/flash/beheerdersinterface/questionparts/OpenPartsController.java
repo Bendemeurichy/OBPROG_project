@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class OpenPartsController extends QuestionPartsController {
-    public TextField answerfield = new TextField();
+    public final TextField answerfield = new TextField();
     private BeheerdersinterfaceController interfacecontroller;
 
     @Override

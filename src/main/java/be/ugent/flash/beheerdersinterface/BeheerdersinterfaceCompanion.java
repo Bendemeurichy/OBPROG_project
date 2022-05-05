@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
 import be.ugent.flash.jdbc.*;
 import javafx.scene.control.TableView;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * klasse om minder javafx intensieve methoden te verwerken zoals vragen updaten, verwijderen, etc.
+ * klasse om minder javafx intensieve methoden te verwerken zoals vragen bijwerken, verwijderen, etc.
  */
 public class BeheerdersinterfaceCompanion {
     public void removeQuestion(BeheerdersinterfaceController controller, TableView<Question> inhoud, File file) {
@@ -20,7 +21,7 @@ public class BeheerdersinterfaceCompanion {
             dp.getPartDAO().removeParts(questionId);
             dp.getQuestionDAO().removeQuestion(questionId);
         } catch (DataAccesException e) {
-            throw new RuntimeException(e);
+            new ErrorDialog().display("kon vraag niet verwijderen");
         }
         controller.initialize();
     }
@@ -37,7 +38,7 @@ public class BeheerdersinterfaceCompanion {
                 dp.getPartDAO().addParts(partsloader.getParts());
             }
         } catch (DataAccesException e) {
-            throw new RuntimeException(e);
+            new ErrorDialog().display("kon vraag niet opslaan");
         }
         controller.initialize();
     }
@@ -47,17 +48,13 @@ public class BeheerdersinterfaceCompanion {
             DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext();
             dp.getPartDAO().addParts(new ArrayList<>(List.of(parts)));
         } catch (DataAccesException e) {
-            throw new RuntimeException(e);
+            new ErrorDialog().display("kon antwoordmogelijkheden niet toevoegen");
         }
     }
 
     //update correcte vraag in db
     public void addCorrectQuestion(Question question, String correctAnswer, File db) {
-        try {
-            Question changed = new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
-            new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
-        } catch (DataAccesException e) {
-            throw new RuntimeException(e);
-        }
+        Question changed = new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
+        new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
     }
 }

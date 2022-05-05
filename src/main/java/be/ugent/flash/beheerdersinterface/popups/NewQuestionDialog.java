@@ -2,7 +2,6 @@ package be.ugent.flash.beheerdersinterface.popups;
 
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
-import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
@@ -23,7 +22,7 @@ import java.util.Map;
 
 /**
  * popupvenster om een nieuwe vraag aan te maken
- * //source popupwindow:http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php
+ * //source popupwindow:<a href="http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php">http://www.learningaboutelectronics.com/Articles/How-to-create-a-pop-up-window-in-JavaFX.php</a>
  */
 public class NewQuestionDialog {
 
@@ -99,14 +98,10 @@ public class NewQuestionDialog {
 
     //maken van nieuwe vraag, gekoppeld aan ok knop
     private void makequestion(ActionEvent event) {
-        try {
-            Question addedQuesiton = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),
-                    typemap.get(types.getSelectionModel().getSelectedItem()), defaultAnswers.get(typemap.get(types.getSelectionModel().getSelectedItem())));
-            controller.initialize();
-            tableview.getSelectionModel().select(addedQuesiton);
-            ((Stage) questiontitle.getScene().getWindow()).close();
-        } catch (DataAccesException e) {
-            throw new RuntimeException(e);
-        }
+        Question addedQuesiton = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),
+                typemap.get(types.getSelectionModel().getSelectedItem()), defaultAnswers.get(typemap.get(types.getSelectionModel().getSelectedItem())));
+        controller.initialize();
+        tableview.getSelectionModel().select(addedQuesiton);
+        ((Stage) questiontitle.getScene().getWindow()).close();
     }
 }

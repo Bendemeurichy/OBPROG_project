@@ -1,5 +1,6 @@
 package be.ugent.flash.beheerdersinterface;
 
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -62,7 +63,7 @@ public class Imageparthandler {
                 controller.ischanged();
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                new ErrorDialog().display("kon foto niet inladen");
             }
         }
 

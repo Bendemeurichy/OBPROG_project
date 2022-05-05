@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class MciPartsController extends MultipleChoicePartsController {
-    public ArrayList<ImageView> parts = new ArrayList<>();
+    public final ArrayList<ImageView> parts = new ArrayList<>();
 
     @Override
     public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {

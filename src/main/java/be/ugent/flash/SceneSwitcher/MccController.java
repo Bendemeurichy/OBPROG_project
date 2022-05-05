@@ -1,6 +1,7 @@
 package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.QuestionManager.QuestionManager;
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
@@ -18,7 +19,7 @@ public class MccController extends AbstractMC {
     private boolean disabled = false;
 
     public MccController(Question question, ArrayList<Parts> parts) {
-        super(question, parts);
+        super(question);
         this.parts = parts;
 
     }
@@ -29,7 +30,7 @@ public class MccController extends AbstractMC {
         try {
             this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
         } catch (DataAccesException e) {
-            throw new RuntimeException(e);
+            new ErrorDialog().display(e.getMessage());
         }
     }
 

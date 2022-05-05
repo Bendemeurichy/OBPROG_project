@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MccPartsController extends MultipleChoicePartsController {
     // door het verschil van textfield met textarea tov mcs veel duplicatie, veel errors met overerving
-    protected ArrayList<TextField> partslist = new ArrayList<>();
+    protected final ArrayList<TextField> partslist = new ArrayList<>();
 
     @Override
     public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {

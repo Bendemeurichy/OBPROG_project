@@ -1,6 +1,7 @@
 package be.ugent.flash.SceneSwitcher;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -39,11 +40,11 @@ public class SceneManager {
         try {
             fxmlLoader.setController(new BeheerdersinterfaceController(file));
             scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+            stage.setTitle(file.getName());
+            stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            new ErrorDialog().display(e.getMessage());
         }
-        stage.setScene(scene);
-        stage.setTitle(file.getName());
-        stage.show();
     }
 }
