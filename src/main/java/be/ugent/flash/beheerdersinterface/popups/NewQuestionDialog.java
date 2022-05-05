@@ -2,6 +2,7 @@ package be.ugent.flash.beheerdersinterface.popups;
 
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
+import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
@@ -98,8 +99,13 @@ public class NewQuestionDialog {
 
     //maken van nieuwe vraag, gekoppeld aan ok knop
     private void makequestion(ActionEvent event) {
-        Question addedQuesiton = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),
-                typemap.get(types.getSelectionModel().getSelectedItem()), defaultAnswers.get(typemap.get(types.getSelectionModel().getSelectedItem())));
+        Question addedQuesiton = null;
+        try {
+            addedQuesiton = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().addQuestion(questiontitle.getText(),
+                    typemap.get(types.getSelectionModel().getSelectedItem()), defaultAnswers.get(typemap.get(types.getSelectionModel().getSelectedItem())));
+        } catch (DataAccesException e) {
+            new ErrorDialog().display(e.getMessage());
+        }
         controller.initialize();
         tableview.getSelectionModel().select(addedQuesiton);
         ((Stage) questiontitle.getScene().getWindow()).close();

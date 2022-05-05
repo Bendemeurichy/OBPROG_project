@@ -4,6 +4,7 @@ import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.beheerdersinterface.popups.NewQuestionDialog;
 import be.ugent.flash.beheerdersinterface.popups.Preview;
 import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
+import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
 import javafx.beans.Observable;
@@ -69,13 +70,17 @@ public class BeheerdersinterfaceController extends MenuOpties {
         titleEditor.clear();
         textpart.clear();
         ObservableList<Question> questions;
-        questions = FXCollections.observableArrayList(
-                new JDBCDataAccesProvider("jdbc:sqlite:" + questiondb.getPath()).getDataAccessContext().getQuestionDAO().allQuestionData());
-        titel.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().title()));
-        type.setCellValueFactory(q -> new SimpleStringProperty(typemap.get(q.getValue().question_type())));
-        contents.setItems(questions);
-        contents.getSelectionModel().selectedItemProperty().addListener(this::selectQuestion);
-        remove.disableProperty().bind(contents.getSelectionModel().selectedItemProperty().isNull());
+        try {
+            questions = FXCollections.observableArrayList(
+                    new JDBCDataAccesProvider("jdbc:sqlite:" + questiondb.getPath()).getDataAccessContext().getQuestionDAO().allQuestionData());
+            titel.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().title()));
+            type.setCellValueFactory(q -> new SimpleStringProperty(typemap.get(q.getValue().question_type())));
+            contents.setItems(questions);
+            contents.getSelectionModel().selectedItemProperty().addListener(this::selectQuestion);
+            remove.disableProperty().bind(contents.getSelectionModel().selectedItemProperty().isNull());
+        } catch (DataAccesException e) {
+            new ErrorDialog().display(e.getMessage());
+        }
 
     }
 

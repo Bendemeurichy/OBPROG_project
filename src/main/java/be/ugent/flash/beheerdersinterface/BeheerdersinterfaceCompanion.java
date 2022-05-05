@@ -55,6 +55,10 @@ public class BeheerdersinterfaceCompanion {
     //update correcte vraag in db
     public void addCorrectQuestion(Question question, String correctAnswer, File db) {
         Question changed = new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
-        new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
+        try {
+            new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
+        } catch (DataAccesException e) {
+            new ErrorDialog().display(e.getMessage());
+        }
     }
 }
