@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 //factory structuur om een nieuwe controller per vraag aan te maken
 public interface QuestionFactory {
-    QuestionController CreateFlashcard(Question question, QuestionManager questionManager,boolean prevCorrect);
+    QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect);
 
     QuestionController loadPreview(Question question, ArrayList<?> parts);
 }

@@ -8,13 +8,8 @@ import java.io.File;
 
 public class OpenIPartsController extends OpenPartsController {
     @Override
-    public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
-        super.initParts(question,answerbox,file,interfacecontroller);
-    }
-
-    @Override
     public String getCorrectAnswer() {
-        if(answerfield.getText().matches("^-?\\d+$")){
+        if (answerfield.getText().matches("^-?\\d+$")){
             return answerfield.getText();
         }
         throw new IllegalArgumentException("Antwoord moet een geheel getal zijn");

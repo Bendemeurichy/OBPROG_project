@@ -10,16 +10,16 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
-public class MccController extends AbstractMC{
+public class MccController extends AbstractMC {
     @FXML
     public HBox buttons;
 
     private ArrayList<Parts> parts;
-    private boolean disabled=false;
+    private boolean disabled = false;
 
-    public MccController(Question question,ArrayList<Parts> parts){
-        super(question,parts);
-        this.parts=parts;
+    public MccController(Question question, ArrayList<Parts> parts) {
+        super(question, parts);
+        this.parts = parts;
 
     }
 
@@ -27,7 +27,7 @@ public class MccController extends AbstractMC{
     public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
         super.makequiz(questionManager, prevCorrect);
         try {
-            this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+            this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
@@ -35,13 +35,13 @@ public class MccController extends AbstractMC{
 
     @Override
     public void disable() {
-        disabled=true;
+        disabled = true;
     }
 
-    public void initialize(){
+    public void initialize() {
         super.initialize();
-        for(int i=0;i< parts.size();i++){
-            Button temp= new Button(parts.get(i).part());
+        for (int i = 0; i < parts.size(); i++) {
+            Button temp = new Button(parts.get(i).part());
             temp.setDisable(disabled);
             temp.setOnAction(this::answer);
             temp.setUserData(i);

@@ -8,18 +8,18 @@ import be.ugent.flash.jdbc.Question;
 import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
-public class MciFactory implements QuestionFactory{
+public class MciFactory implements QuestionFactory {
     @Override
-    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager,boolean prevCorrect) {
-        MciController controller=new MciController(question,null);
-        controller.makequiz(questionManager,prevCorrect);
+    public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
+        MciController controller = new MciController(question, null);
+        controller.makequiz(questionManager, prevCorrect);
         return controller;
     }
 
 
     @Override
     public QuestionController loadPreview(Question question, ArrayList<?> parts) {
-        @SuppressWarnings("unchecked") MciController controller=new  MciController(question, (ArrayList<ImageParts>) parts);
+        @SuppressWarnings("unchecked") MciController controller = new MciController(question, (ArrayList<ImageParts>) parts);
         controller.disable();
         return controller;
     }

@@ -24,29 +24,31 @@ public abstract class QuestionController {
     protected GeneralQuestion questionData;
     protected QuestionManager manager;
     protected boolean correct;
-    protected boolean prevCorrect=true;
+    protected boolean prevCorrect = true;
 
     public abstract String getfxml();
 
-    public void initialize(){
-        wrongAnswer.setVisible(! prevCorrect);
+    public void initialize() {
+        wrongAnswer.setVisible(!prevCorrect);
         try {
             photoPart.setImage(questionData.getImage());
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             question.getChildren().remove(photoPart);
         }
         textPart.getChildren().add(new Text(questionData.getText()));
     }
 
-    public boolean getCorrect(){return correct;}
+    public boolean getCorrect() {
+        return correct;
+    }
 
     public String getTitle() {
         return questionData.getTitle();
     }
 
-    public void makequiz(QuestionManager questionManager, boolean prevCorrect){
-        this.manager=questionManager;
-        this.prevCorrect=prevCorrect;
+    public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
+        this.manager = questionManager;
+        this.prevCorrect = prevCorrect;
     }
 
     public abstract void disable();

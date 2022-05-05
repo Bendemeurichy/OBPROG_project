@@ -12,9 +12,9 @@ import java.util.ArrayList;
  */
 public abstract class QuestionPartsController {
     /**
-     * @param question de vraag die is ingeladen
-     * @param answerbox de vbox die onder de algemene delen van de vraag staan waar de antwoorden in moeten komen
-     * @param file db om parts uit te kunnen opvragen van de vraag
+     * @param question            de vraag die is ingeladen
+     * @param answerbox           de vbox die onder de algemene delen van de vraag staan waar de antwoorden in moeten komen
+     * @param file                db om parts uit te kunnen opvragen van de vraag
      * @param interfacecontroller main controller van beheerdersinterface meegegeven om tableview te disablen indien nodig
      */
     abstract void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller);

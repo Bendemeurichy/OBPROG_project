@@ -5,8 +5,8 @@ import javafx.scene.control.CheckBox;
 public class MrPartsController extends McsPartsController {
     @Override
     protected void selectCorrect() {
-        String[] correctlist=question.correct_answer().split("");
-        for(CheckBox box:boxlist){
+        String[] correctlist = question.correct_answer().split("");
+        for (CheckBox box : boxlist) {
             if (correctlist[boxlist.indexOf(box)].equals("T")){
                 box.setSelected(true);
             }
@@ -14,14 +14,14 @@ public class MrPartsController extends McsPartsController {
     }
 
     public String getCorrectAnswer() {
-        StringBuilder answer= new StringBuilder();
-        for(CheckBox checkBox:boxlist){
+        StringBuilder answer = new StringBuilder();
+        for (CheckBox checkBox : boxlist) {
             answer.append(checkBox.isSelected() ? "T" : "F");
         }
         System.out.println(answer);
-        if(! answer.toString().matches("T")){
+        if (!answer.toString().matches("T")){
             return String.valueOf(answer);
-        }else {
+        } else {
             throw new IllegalArgumentException("Er moet minstens 1 oplossing gekozen zijn");
         }
     }

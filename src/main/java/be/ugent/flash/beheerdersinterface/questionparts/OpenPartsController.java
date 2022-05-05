@@ -12,11 +12,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class OpenPartsController extends QuestionPartsController {
-    public TextField answerfield=new TextField();
+    public TextField answerfield = new TextField();
     private BeheerdersinterfaceController interfacecontroller;
+
     @Override
     public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
-        this.interfacecontroller=interfacecontroller;
+        this.interfacecontroller = interfacecontroller;
         if (question.correct_answer().equals("") || question.correct_answer().equals(0 + "")){
             new BeheerdersinterfaceCompanion().addParts(new Parts(question.question_id(), ""), file);
         } else {
@@ -37,7 +38,7 @@ public class OpenPartsController extends QuestionPartsController {
     }
 
     public String getCorrectAnswer() {
-        if(! answerfield.getText().equals("")){
+        if (!answerfield.getText().equals("")){
             return answerfield.getText();
         } else {
             throw new IllegalArgumentException("Antwoord mag niet leeg zijn");

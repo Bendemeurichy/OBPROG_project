@@ -7,8 +7,8 @@ public class JDBCDataAccesContext implements DataAccesContext {
 
     private final Connection connection;
 
-    public JDBCDataAccesContext(Connection connection){
-        this.connection=connection;
+    public JDBCDataAccesContext(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -23,10 +23,10 @@ public class JDBCDataAccesContext implements DataAccesContext {
 
     @Override
     public void close() throws DataAccesException {
-        try{
+        try {
             connection.close();
-    } catch(SQLException e){
-            throw new DataAccesException("Could not close connection",e);
+        } catch (SQLException e) {
+            throw new DataAccesException("Could not close connection", e);
         }
     }
 }

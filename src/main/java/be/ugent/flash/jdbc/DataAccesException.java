@@ -1,8 +1,8 @@
 package be.ugent.flash.jdbc;
 
 
-public class DataAccesException extends Exception{
+public class DataAccesException extends Exception {
     public DataAccesException(String s, Throwable ex) {
-        super(s,ex);
+        super(s, ex);
     }
 }

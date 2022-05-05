@@ -25,13 +25,13 @@ public class Imageparthandler {
     private final GridPane pane;
     private final BeheerdersinterfaceController controller;
 
-    public Imageparthandler(ImageView picturepart, VBox photobox, HBox photobuttons, GridPane pane, BeheerdersinterfaceController controller){
+    public Imageparthandler(ImageView picturepart, VBox photobox, HBox photobuttons, GridPane pane, BeheerdersinterfaceController controller) {
 
         this.picturepart = picturepart;
         this.photobox = photobox;
         this.photobuttons = photobuttons;
-        this.pane= pane;
-        this.controller= controller;
+        this.pane = pane;
+        this.controller = controller;
     }
 
     public void removeImage() {
@@ -48,7 +48,7 @@ public class Imageparthandler {
     public void chooseImage(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Kies een afbeelding (.jpeg of png)");
-        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg","*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
+        chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg", "*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
         File file = chooser.showOpenDialog(pane.getScene().getWindow());
         if (file != null){
             try {
@@ -67,12 +67,12 @@ public class Imageparthandler {
         controller.ischanged();
     }
 
-        public void showimage() {
-            photobox.getChildren().add(picturepart);
-            Button change_p =new Button("wijzig foto");
-            Button delete_p=new Button("verwijder foto");
-            change_p.setOnAction(this::chooseImage);
-            delete_p.setOnAction(event -> removeImage());
-            photobuttons.getChildren().addAll(change_p,delete_p);
-        }
+    public void showimage() {
+        photobox.getChildren().add(picturepart);
+        Button change_p = new Button("wijzig foto");
+        Button delete_p = new Button("verwijder foto");
+        change_p.setOnAction(this::chooseImage);
+        delete_p.setOnAction(event -> removeImage());
+        photobuttons.getChildren().addAll(change_p, delete_p);
     }
+}

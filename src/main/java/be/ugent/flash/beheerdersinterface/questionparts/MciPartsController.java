@@ -1,7 +1,10 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
-import be.ugent.flash.jdbc.*;
+import be.ugent.flash.jdbc.DataAccesException;
+import be.ugent.flash.jdbc.ImageParts;
+import be.ugent.flash.jdbc.JDBCDataAccesProvider;
+import be.ugent.flash.jdbc.Question;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -18,24 +21,24 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class MciPartsController extends MultipleChoicePartsController {
-    public ArrayList<ImageView> parts=new ArrayList<>();
+    public ArrayList<ImageView> parts = new ArrayList<>();
 
     @Override
     public void initParts(Question question, VBox answerbox, File file, BeheerdersinterfaceController interfacecontroller) {
-        super.initParts(question,answerbox,file,interfacecontroller);
+        super.initParts(question, answerbox, file, interfacecontroller);
         ArrayList<ImageParts> initialP;
         try {
-            initialP=new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext().getPartDAO().specificImagepart(question.question_id());
+            initialP = new JDBCDataAccesProvider("jdbc:sqlite:" + file.getPath()).getDataAccessContext().getPartDAO().specificImagepart(question.question_id());
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
-        if(initialP.isEmpty()){
-            CheckBox box=new CheckBox();
+        if (initialP.isEmpty()){
+            CheckBox box = new CheckBox();
             box.setSelected(true);
             ImageView imageAnswer;
             try {
                 FileInputStream stream = new FileInputStream("src/main/resources/leeg.png");
-                Image image=new Image(stream);
+                Image image = new Image(stream);
                 imageAnswer = new ImageView();
                 imageAnswer.setImage(image);
                 imageAnswer.setUserData(null);
@@ -46,17 +49,17 @@ public class MciPartsController extends MultipleChoicePartsController {
             partsStyling(box, imageAnswer);
             loadParts();
         } else {
-            for(ImageParts part:initialP) {
+            for (ImageParts part : initialP) {
                 CheckBox box = new CheckBox();
-                ImageView imageAnswer=new ImageView();
-                if(part.part()==null){
+                ImageView imageAnswer = new ImageView();
+                if (part.part() == null){
                     FileInputStream stream;
                     try {
                         stream = new FileInputStream("src/main/resources/leeg.png");
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    Image image=new Image(stream);
+                    Image image = new Image(stream);
                     imageAnswer.setImage(image);
                     imageAnswer.setUserData(null);
                 } else {
@@ -79,7 +82,7 @@ public class MciPartsController extends MultipleChoicePartsController {
         answerArea.setFitWidth(150);
         answerArea.setFitHeight(100);
         parts.add(answerArea);
-        Button cross=new Button("X");
+        Button cross = new Button("X");
         cross.setOnAction(this::removePart);
         boxlist.add(box);
         crossbox.add(cross);
@@ -90,7 +93,7 @@ public class MciPartsController extends MultipleChoicePartsController {
     }
 
     private void selectCorrect() {
-        for(CheckBox box:boxlist) {
+        for (CheckBox box : boxlist) {
             if (question.correct_answer().equals(boxlist.indexOf(box) + "")){
                 box.setSelected(true);
             }
@@ -99,36 +102,36 @@ public class MciPartsController extends MultipleChoicePartsController {
 
     private void loadParts() {
         answerPane.getChildren().clear();
-        for(int i=0;i<parts.size();i++){
-            answerPane.add(boxlist.get(i),0,i);
-            if(parts.get(i).getUserData()==null){
-                ImageView view=parts.get(i);
+        for (int i = 0; i < parts.size(); i++) {
+            answerPane.add(boxlist.get(i), 0, i);
+            if (parts.get(i).getUserData() == null){
+                ImageView view = parts.get(i);
                 try {
                     FileInputStream stream = new FileInputStream("src/main/resources/leeg.png");
-                    Image image=new Image(stream);
+                    Image image = new Image(stream);
                     view.setUserData(null);
                     view.setImage(image);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                answerPane.add(view,1,i);
-            }else {
+                answerPane.add(view, 1, i);
+            } else {
                 answerPane.add(parts.get(i), 1, i);
             }
-            answerPane.add(crossbox.get(i),2,i);
+            answerPane.add(crossbox.get(i), 2, i);
         }
 
     }
 
     public void addImagePart(MouseEvent event) {
         interfacecontroller.ischanged();
-        if(event.getButton().equals(MouseButton.PRIMARY)){
-            if(event.getClickCount()==2){
+        if (event.getButton().equals(MouseButton.PRIMARY)){
+            if (event.getClickCount() == 2){
                 FileChooser chooser = new FileChooser();
-                CheckBox box=new CheckBox();
-                ImageView view= (ImageView) event.getSource();
+                CheckBox box = new CheckBox();
+                ImageView view = (ImageView) event.getSource();
                 chooser.setTitle("Kies een afbeelding (.jpeg of png)");
-                chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg","*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
+                chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("jpeg files", "*.jpeg", "*jpg"), new FileChooser.ExtensionFilter("npg files", "*.npg"));
                 File file = chooser.showOpenDialog(answerPane.getScene().getWindow());
                 if (file != null){
                     try {
@@ -147,46 +150,47 @@ public class MciPartsController extends MultipleChoicePartsController {
 
     @Override
     public ArrayList<ImageParts> getParts() {
-        ArrayList<ImageParts> changed=new ArrayList<>();
-        for(ImageView area:parts){
-            if( area.getUserData()==null){
-                changed.add(new ImageParts(question.question_id(),null));
-        } else {
-                changed.add(new ImageParts(question.question_id(),(byte[])area.getUserData()));
+        ArrayList<ImageParts> changed = new ArrayList<>();
+        for (ImageView area : parts) {
+            if (area.getUserData() == null){
+                changed.add(new ImageParts(question.question_id(), null));
+            } else {
+                changed.add(new ImageParts(question.question_id(), (byte[]) area.getUserData()));
             }
         }
         return changed;
     }
 
     public String getCorrectAnswer() {
-        ArrayList<CheckBox> checked=new ArrayList<>();
-        for(CheckBox box:boxlist){
-            if(box.isSelected()){
+        ArrayList<CheckBox> checked = new ArrayList<>();
+        for (CheckBox box : boxlist) {
+            if (box.isSelected()){
                 checked.add(box);
             }
         }
-        if (checked.size()==1){
-            return boxlist.indexOf(checked.get(0))+"";
+        if (checked.size() == 1){
+            return boxlist.indexOf(checked.get(0)) + "";
         }
         throw new IllegalArgumentException("Er moet exact één antwoord aangeduid zijn");
     }
 
     protected void removePart(ActionEvent event) {
         interfacecontroller.ischanged();
-        int index=crossbox.indexOf(event.getSource());
+        int index = crossbox.indexOf(event.getSource());
         crossbox.remove(index);
         parts.remove(index);
         boxlist.remove(index);
         loadParts();
     }
+
     @Override
     void addPart(ActionEvent event) {
         interfacecontroller.ischanged();
-        CheckBox box=new CheckBox();
-        ImageView view=new ImageView();
+        CheckBox box = new CheckBox();
+        ImageView view = new ImageView();
         view.setUserData(null);
         view.setOnMouseClicked(this::addImagePart);
-        partsStyling(box,view);
+        partsStyling(box, view);
         loadParts();
     }
 

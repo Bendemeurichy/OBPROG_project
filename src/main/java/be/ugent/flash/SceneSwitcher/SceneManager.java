@@ -31,13 +31,14 @@ public class SceneManager {
         stage.setTitle(title);
         stage.show();
     }
-    public void loadDB(File file){
-        FXMLLoader fxmlLoader= new FXMLLoader(BeheerdersinterfaceController.class.getResource("Beheerdersinterface.fxml"));
+
+    public void loadDB(File file) {
+        FXMLLoader fxmlLoader = new FXMLLoader(BeheerdersinterfaceController.class.getResource("Beheerdersinterface.fxml"));
 
         Scene scene;
         try {
             fxmlLoader.setController(new BeheerdersinterfaceController(file));
-            scene= new Scene(fxmlLoader.load());
+            scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

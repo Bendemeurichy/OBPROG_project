@@ -16,67 +16,67 @@ public class JDBCPartDAO extends JDBCAbstractDAO implements PartDAO {
     public ArrayList<Parts> specificPart(int id) throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
-            ResultSet data= ps.executeQuery();
+            ResultSet data = ps.executeQuery();
 
-            ArrayList<Parts> parts=new ArrayList<>();
+            ArrayList<Parts> parts = new ArrayList<>();
 
-            while(data.next()){
-                parts.add(new Parts(data.getInt(2),data.getString(3)));
+            while (data.next()) {
+                parts.add(new Parts(data.getInt(2), data.getString(3)));
             }
             return parts;
-        }catch (SQLException e){
-            throw new DataAccesException("Could not find answers for question with id: "+id,e);
+        } catch (SQLException e) {
+            throw new DataAccesException("Could not find answers for question with id: " + id, e);
         }
     }
 
     public ArrayList<ImageParts> specificImagepart(int id) throws DataAccesException {
         try (PreparedStatement ps = prepare("SELECT question_id,part_id, part FROM parts WHERE question_id=? ORDER BY part_id")) {
             ps.setInt(1, id);
-            ResultSet data= ps.executeQuery();
+            ResultSet data = ps.executeQuery();
 
-            ArrayList<ImageParts> parts=new ArrayList<>();
+            ArrayList<ImageParts> parts = new ArrayList<>();
 
-            while(data.next()){
-                parts.add(new ImageParts(data.getInt(1),data.getBytes(3)));
+            while (data.next()) {
+                parts.add(new ImageParts(data.getInt(1), data.getBytes(3)));
             }
             return parts;
-        }catch (SQLException e){
-            throw new DataAccesException("Could not find answers for question with id: "+id,e);
+        } catch (SQLException e) {
+            throw new DataAccesException("Could not find answers for question with id: " + id, e);
         }
     }
 
-        @Override
-        public void removeParts(int questionID) throws DataAccesException {
-            try (PreparedStatement ps = prepare("DELETE FROM parts WHERE question_id = ?")){
-                ps.setInt(1,questionID);
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                throw new DataAccesException("could not find answers for question with id " +questionID,e);
-            }
+    @Override
+    public void removeParts(int questionID) throws DataAccesException {
+        try (PreparedStatement ps = prepare("DELETE FROM parts WHERE question_id = ?")) {
+            ps.setInt(1, questionID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccesException("could not find answers for question with id " + questionID, e);
         }
+    }
 
     @Override
     public void addParts(ArrayList<Parts> parts) throws DataAccesException {
-        if ( parts!=null){
-        for(Parts part:parts) {
-            try (PreparedStatement ps = prepare("INSERT INTO parts(question_id,part) VALUES(?, ?)")) {
-                ps.setInt(1, part.question_id());
-                ps.setString(2,part.part());
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                throw new DataAccesException("could not find answers for question with id " + part.question_id(), e);
+        if (parts != null){
+            for (Parts part : parts) {
+                try (PreparedStatement ps = prepare("INSERT INTO parts(question_id,part) VALUES(?, ?)")) {
+                    ps.setInt(1, part.question_id());
+                    ps.setString(2, part.part());
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    throw new DataAccesException("could not find answers for question with id " + part.question_id(), e);
+                }
             }
         }
-    }
     }
 
     @Override
     public void addImageParts(ArrayList<ImageParts> imageParts) throws DataAccesException {
-        if ( imageParts!=null){
-            for(ImageParts part:imageParts) {
+        if (imageParts != null){
+            for (ImageParts part : imageParts) {
                 try (PreparedStatement ps = prepare("INSERT INTO parts(question_id,part) VALUES(?, ?)")) {
                     ps.setInt(1, part.question_id());
-                    ps.setBytes(2,part.part());
+                    ps.setBytes(2, part.part());
                     ps.executeUpdate();
                 } catch (SQLException e) {
                     throw new DataAccesException("could not find answers for question with id " + part.question_id(), e);

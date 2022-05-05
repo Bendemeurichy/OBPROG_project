@@ -12,22 +12,23 @@ import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
 
-public class McsController extends AbstractMC{
+public class McsController extends AbstractMC {
     @FXML
     public GridPane answers;
 
     private ArrayList<Parts> parts;
-    private boolean disabled=false;
-    public McsController(Question question,ArrayList<Parts> parts){
-        super(question,parts);
-        this.parts=parts;
+    private boolean disabled = false;
+
+    public McsController(Question question, ArrayList<Parts> parts) {
+        super(question, parts);
+        this.parts = parts;
     }
 
     @Override
     public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
         super.makequiz(questionManager, prevCorrect);
         try {
-            this.parts=manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
+            this.parts = manager.getProvider().getDataAccessContext().getPartDAO().specificPart(questionData.getId());
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +36,7 @@ public class McsController extends AbstractMC{
 
     @Override
     public void disable() {
-        disabled=true;
+        disabled = true;
     }
 
     @Override
@@ -43,13 +44,13 @@ public class McsController extends AbstractMC{
 
     public void initialize() {
         super.initialize();
-        for(int i=0;i< parts.size();i++){
-            String ascii= ""+(char) (65+i);
-            Button temp= new Button(ascii);
+        for (int i = 0; i < parts.size(); i++) {
+            String ascii = "" + (char) (65 + i);
+            Button temp = new Button(ascii);
             temp.setOnAction(this::answer);
             temp.setUserData(i);
-            answers.add(temp,0,i);
-            answers.add(new TextFlow(new Text(parts.get(i).part())),1,i);
+            answers.add(temp, 0, i);
+            answers.add(new TextFlow(new Text(parts.get(i).part())), 1, i);
         }
         answers.setDisable(disabled);
     }

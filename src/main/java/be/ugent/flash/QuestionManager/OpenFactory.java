@@ -9,14 +9,14 @@ import java.util.ArrayList;
 public class OpenFactory implements QuestionFactory {
     @Override
     public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
-        OpenController controller=new OpenController(question);
-        controller.makequiz(questionManager,prevCorrect);
+        OpenController controller = new OpenController(question);
+        controller.makequiz(questionManager, prevCorrect);
         return controller;
     }
 
     @Override
     public QuestionController loadPreview(Question question, ArrayList<?> parts) {
-        OpenController controller= new OpenController(question);
+        OpenController controller = new OpenController(question);
         controller.disable();
         return controller;
     }

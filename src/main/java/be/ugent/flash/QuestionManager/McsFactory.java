@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class McsFactory implements QuestionFactory {
     @Override
     public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
-        McsController controller=new McsController(question,null);
-        controller.makequiz(questionManager,prevCorrect);
+        McsController controller = new McsController(question, null);
+        controller.makequiz(questionManager, prevCorrect);
         return controller;
     }
 
     @Override
     public QuestionController loadPreview(Question question, ArrayList<?> parts) {
-        @SuppressWarnings("unchecked") McsController controller= new McsController(question, (ArrayList<Parts>) parts);
+        @SuppressWarnings("unchecked") McsController controller = new McsController(question, (ArrayList<Parts>) parts);
         controller.disable();
         return controller;
     }

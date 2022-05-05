@@ -40,9 +40,9 @@ public class Main extends Application {
     public void init() {
         List<String> argList = getParameters().getRaw();
         int size = argList.size();
-        if (size == 0) {
+        if (size == 0){
             this.dbName = null;
-        } else if (size == 1) {
+        } else if (size == 1){
             this.dbName = argList.get(0);
         } else {
             error("maximum twee opdrachtlijnparameters toegelaten");
@@ -52,8 +52,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setResizable(false);
-        if (dbName == null) {
-            FXMLLoader loader= new FXMLLoader((MenuOpties.class.getResource("BeginScherm.fxml")));
+        if (dbName == null){
+            FXMLLoader loader = new FXMLLoader((MenuOpties.class.getResource("BeginScherm.fxml")));
             stage.setTitle("Flash: beheerdersinterface");
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
@@ -61,9 +61,9 @@ public class Main extends Application {
             // start de beheersinterface.
             // TODO aanvullen
         } else {
-            DataAccesProvider dataAccesProvider= new JDBCDataAccesProvider("jdbc:sqlite:"+dbName);
-            FXMLLoader loader=new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
-            QuestionManager questionManager= new QuestionManager(dataAccesProvider,stage);
+            DataAccesProvider dataAccesProvider = new JDBCDataAccesProvider("jdbc:sqlite:" + dbName);
+            FXMLLoader loader = new FXMLLoader(QuestionController.class.getResource("Mcs.fxml"));
+            QuestionManager questionManager = new QuestionManager(dataAccesProvider, stage);
             stage.setTitle("Viewer");
             stage.setScene(new Scene(loader.load()));
             stage.show();

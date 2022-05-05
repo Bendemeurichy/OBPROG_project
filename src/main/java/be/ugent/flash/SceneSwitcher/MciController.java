@@ -13,15 +13,16 @@ import javafx.scene.layout.HBox;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class MciController extends AbstractMC{
+public class MciController extends AbstractMC {
     @FXML
     public HBox buttons;
 
     private ArrayList<ImageParts> parts;
-    private boolean disabled=false;
-    public MciController(Question question,ArrayList<ImageParts> parts) {
-        super(question,parts);
-        this.parts=parts;
+    private boolean disabled = false;
+
+    public MciController(Question question, ArrayList<ImageParts> parts) {
+        super(question, parts);
+        this.parts = parts;
 
     }
 
@@ -29,7 +30,7 @@ public class MciController extends AbstractMC{
     public void makequiz(QuestionManager questionManager, boolean prevCorrect) {
         super.makequiz(questionManager, prevCorrect);
         try {
-            parts=manager.getProvider().getDataAccessContext().getPartDAO().specificImagepart(questionData.getId());
+            parts = manager.getProvider().getDataAccessContext().getPartDAO().specificImagepart(questionData.getId());
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
@@ -37,14 +38,14 @@ public class MciController extends AbstractMC{
 
     @Override
     public void disable() {
-        disabled=true;
+        disabled = true;
     }
 
-    public void initialize(){
+    public void initialize() {
         super.initialize();
-        for(int i=0; i<parts.size();i++){
+        for (int i = 0; i < parts.size(); i++) {
             ImageView answer;
-            if (parts.get(i).part()!=null){
+            if (parts.get(i).part() != null){
                 answer = new ImageView(new Image(new ByteArrayInputStream(parts.get(i).part())));
 
                 Button temp = new Button();

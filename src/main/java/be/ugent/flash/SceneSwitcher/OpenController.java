@@ -8,17 +8,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class OpenController extends QuestionController{
+public class OpenController extends QuestionController {
     @FXML
     public TextField answerField;
     public Label warning;
-    private boolean disabled=false;
-    public OpenController(Question question){
-        this.questionData=new GeneralQuestion(question);
+    private boolean disabled = false;
+
+    public OpenController(Question question) {
+        this.questionData = new GeneralQuestion(question);
 
     }
 
-    public void initialize(){
+    public void initialize() {
         super.initialize();
         answerField.setOnKeyReleased(this::answer);
         warning.setVisible(false);
@@ -27,19 +28,19 @@ public class OpenController extends QuestionController{
 
     @Override
     public void disable() {
-        disabled=true;
+        disabled = true;
     }
 
     //de gepaste waarschuwing komt op indien de tekst in het textfield niet is toegelaten
     public void answer(KeyEvent event) {
-        if(answerField.getText().equals("")){
+        if (answerField.getText().equals("")){
             warning.setVisible(true);
             this.question.getStyleClass().add("warning");
-        } else{
+        } else {
             this.question.getStyleClass().remove("warning");
             warning.setVisible(false);
-            if (event.getCode()== KeyCode.ENTER){
-                this.correct=questionData.checkAnswer(answerField.getText());
+            if (event.getCode() == KeyCode.ENTER){
+                this.correct = questionData.checkAnswer(answerField.getText());
                 manager.next();
             }
         }

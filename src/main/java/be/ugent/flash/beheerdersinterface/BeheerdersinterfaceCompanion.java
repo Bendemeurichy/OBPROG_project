@@ -13,10 +13,10 @@ import java.util.Objects;
  * klasse om minder javafx intensieve methoden te verwerken zoals vragen updaten, verwijderen, etc.
  */
 public class BeheerdersinterfaceCompanion {
-    public void removeQuestion(BeheerdersinterfaceController controller, TableView<Question> inhoud, File file){
-        int questionId=inhoud.getSelectionModel().getSelectedItem().question_id();
-        try{
-            DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext();
+    public void removeQuestion(BeheerdersinterfaceController controller, TableView<Question> inhoud, File file) {
+        int questionId = inhoud.getSelectionModel().getSelectedItem().question_id();
+        try {
+            DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:" + file.getPath()).getDataAccessContext();
             dp.getPartDAO().removeParts(questionId);
             dp.getQuestionDAO().removeQuestion(questionId);
         } catch (DataAccesException e) {
@@ -26,14 +26,14 @@ public class BeheerdersinterfaceCompanion {
     }
 
     //update de db, parts van vraag worden eerst allemaal verwijderd en dan opnieuw toegevoegd om methodes in dao makkelijk te houden
-    public void save(BeheerdersinterfaceController controller, Question question, File file, Partsloader partsloader){
-        try{
-            DataAccesContext dp= new JDBCDataAccesProvider("jdbc:sqlite:"+file.getPath()).getDataAccessContext();
+    public void save(BeheerdersinterfaceController controller, Question question, File file, Partsloader partsloader) {
+        try {
+            DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:" + file.getPath()).getDataAccessContext();
             dp.getQuestionDAO().updateQuestion(question);
             dp.getPartDAO().removeParts(question.question_id());
-            if(Objects.equals(question.question_type(), "mci")){
+            if (Objects.equals(question.question_type(), "mci")){
                 dp.getPartDAO().addImageParts(partsloader.getImageParts());
-            }else {
+            } else {
                 dp.getPartDAO().addParts(partsloader.getParts());
             }
         } catch (DataAccesException e) {
@@ -42,9 +42,9 @@ public class BeheerdersinterfaceCompanion {
         controller.initialize();
     }
 
-    public void addParts(Parts parts,File db) {
-        try{
-            DataAccesContext dp= new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext();
+    public void addParts(Parts parts, File db) {
+        try {
+            DataAccesContext dp = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext();
             dp.getPartDAO().addParts(new ArrayList<>(List.of(parts)));
         } catch (DataAccesException e) {
             throw new RuntimeException(e);
@@ -52,12 +52,12 @@ public class BeheerdersinterfaceCompanion {
     }
 
     //update correcte vraag in db
-    public void addCorrectQuestion(Question question, String correctAnswer,File db) {
-        try{
-            Question changed=new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
-            new JDBCDataAccesProvider("jdbc:sqlite:"+db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
-        }  catch (DataAccesException e) {
+    public void addCorrectQuestion(Question question, String correctAnswer, File db) {
+        try {
+            Question changed = new Question(question.question_id(), question.title(), question.text_part(), question.image_part(), question.question_type(), correctAnswer);
+            new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
+        } catch (DataAccesException e) {
             throw new RuntimeException(e);
         }
     }
- }
+}

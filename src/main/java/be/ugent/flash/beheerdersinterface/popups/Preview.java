@@ -15,18 +15,19 @@ import java.util.Map;
 /**
  * popupvenster om de preview van de vraag in te laden, gebruikt controllers uit deel 1 en scenechanger om fxml in te laden
  */
-public class Preview{
-    private final Map<String, QuestionFactory> factories= Map.of("mcs",new McsFactory(),"mcc",new MccFactory(),
-            "mci",new MciFactory(),"mr",new MrFactory(),"open",new OpenFactory(),"openi",new OpenIFactory());
-    public final Stage previewStage=new Stage();
+public class Preview {
+    private final Map<String, QuestionFactory> factories = Map.of("mcs", new McsFactory(), "mcc", new MccFactory(),
+            "mci", new MciFactory(), "mr", new MrFactory(), "open", new OpenFactory(), "openi", new OpenIFactory());
+    public final Stage previewStage = new Stage();
 
-    public Preview(GridPane pane){
+    public Preview(GridPane pane) {
 
         previewStage.initOwner(pane.getScene().getWindow());
         previewStage.initStyle(StageStyle.TRANSPARENT);
     }
-    public void showPreview(Question question,ArrayList<Parts> parts){
-        if(!previewStage.isShowing()){
+
+    public void showPreview(Question question, ArrayList<Parts> parts) {
+        if (!previewStage.isShowing()){
 
             previewStage.setTitle("Preview: " + question.title());
             QuestionController controlller = factories.get(question.question_type()).loadPreview(question, parts);

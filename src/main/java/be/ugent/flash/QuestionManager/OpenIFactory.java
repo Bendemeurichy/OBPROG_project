@@ -6,16 +6,17 @@ import be.ugent.flash.jdbc.Question;
 
 import java.util.ArrayList;
 
-public class OpenIFactory implements QuestionFactory{
+public class OpenIFactory implements QuestionFactory {
     @Override
     public QuestionController CreateFlashcard(Question question, QuestionManager questionManager, boolean prevCorrect) {
-        OpeniController controller=new OpeniController(question);
-        controller.makequiz(questionManager,prevCorrect);
+        OpeniController controller = new OpeniController(question);
+        controller.makequiz(questionManager, prevCorrect);
         return controller;
     }
+
     @Override
     public QuestionController loadPreview(Question question, ArrayList<?> parts) {
-        OpeniController controller= new OpeniController(question);
+        OpeniController controller = new OpeniController(question);
         controller.disable();
         return controller;
     }

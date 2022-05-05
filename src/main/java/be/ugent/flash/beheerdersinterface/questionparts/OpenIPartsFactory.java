@@ -9,8 +9,8 @@ import java.io.File;
 public class OpenIPartsFactory implements QuestionPartsFactory {
     @Override
     public QuestionPartsController create(Question question, VBox answerbox, File db, BeheerdersinterfaceController beheerdersinterfaceController) {
-        OpenIPartsController controller= new OpenIPartsController();
-        controller.initParts(question,answerbox,db,beheerdersinterfaceController);
+        OpenIPartsController controller = new OpenIPartsController();
+        controller.initParts(question, answerbox, db, beheerdersinterfaceController);
         return controller;
     }
 }

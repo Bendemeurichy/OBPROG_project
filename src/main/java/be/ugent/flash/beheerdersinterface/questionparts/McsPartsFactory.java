@@ -9,8 +9,8 @@ import java.io.File;
 public class McsPartsFactory implements QuestionPartsFactory {
     @Override
     public QuestionPartsController create(Question question, VBox answerbox, File db, BeheerdersinterfaceController interfacecontroller) {
-        McsPartsController controller= new McsPartsController();
-        controller.initParts(question,answerbox,db,interfacecontroller);
+        McsPartsController controller = new McsPartsController();
+        controller.initParts(question, answerbox, db, interfacecontroller);
         return controller;
     }
 }
