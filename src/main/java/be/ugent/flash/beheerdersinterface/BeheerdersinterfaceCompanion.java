@@ -3,6 +3,7 @@ package be.ugent.flash.beheerdersinterface;
 import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
 import be.ugent.flash.jdbc.*;
+import javafx.application.Platform;
 import javafx.scene.control.TableView;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class BeheerdersinterfaceCompanion {
             dp.getQuestionDAO().removeQuestion(questionId);
         } catch (DataAccesException e) {
             new ErrorDialog().display("kon vraag niet verwijderen");
+            Platform.exit();
         }
         controller.initialize();
     }
@@ -39,6 +41,7 @@ public class BeheerdersinterfaceCompanion {
             }
         } catch (DataAccesException e) {
             new ErrorDialog().display("kon vraag niet opslaan");
+            Platform.exit();
         }
         controller.initialize();
     }
@@ -49,6 +52,7 @@ public class BeheerdersinterfaceCompanion {
             dp.getPartDAO().addParts(new ArrayList<>(List.of(parts)));
         } catch (DataAccesException e) {
             new ErrorDialog().display("kon antwoordmogelijkheden niet toevoegen");
+            Platform.exit();
         }
     }
 
@@ -59,6 +63,7 @@ public class BeheerdersinterfaceCompanion {
             new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getQuestionDAO().updateQuestion(changed);
         } catch (DataAccesException e) {
             new ErrorDialog().display(e.getMessage());
+            Platform.exit();
         }
     }
 }

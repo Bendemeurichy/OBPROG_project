@@ -1,10 +1,12 @@
 package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.ImageParts;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -29,50 +31,53 @@ public class MciPartsController extends MultipleChoicePartsController {
         ArrayList<ImageParts> initialP;
         try {
             initialP = new JDBCDataAccesProvider("jdbc:sqlite:" + file.getPath()).getDataAccessContext().getPartDAO().specificImagepart(question.question_id());
-        } catch (DataAccesException e) {
-            throw new RuntimeException(e);
-        }
-        if (initialP.isEmpty()){
-            CheckBox box = new CheckBox();
-            box.setSelected(true);
-            ImageView imageAnswer;
-            try {
-                FileInputStream stream = new FileInputStream("src/main/resources/leeg.png");
-                Image image = new Image(stream);
-                imageAnswer = new ImageView();
-                imageAnswer.setImage(image);
-                imageAnswer.setUserData(null);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            imageAnswer.setOnMouseClicked(this::addImagePart);
-            partsStyling(box, imageAnswer);
-            loadParts();
-        } else {
-            for (ImageParts part : initialP) {
+            if (initialP.isEmpty()){
                 CheckBox box = new CheckBox();
-                ImageView imageAnswer = new ImageView();
-                if (part.part() == null){
-                    FileInputStream stream;
-                    try {
-                        stream = new FileInputStream("src/main/resources/leeg.png");
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
+                box.setSelected(true);
+                ImageView imageAnswer;
+                try {
+                    FileInputStream stream = new FileInputStream("src/main/resources/leeg.png");
                     Image image = new Image(stream);
+                    imageAnswer = new ImageView();
                     imageAnswer.setImage(image);
                     imageAnswer.setUserData(null);
-                } else {
-                    imageAnswer.setImage((new Image(new ByteArrayInputStream(part.part()))));
-                    imageAnswer.setUserData(part.part());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-
                 imageAnswer.setOnMouseClicked(this::addImagePart);
                 partsStyling(box, imageAnswer);
                 loadParts();
-                selectCorrect();
+            } else {
+                for (ImageParts part : initialP) {
+                    CheckBox box = new CheckBox();
+                    ImageView imageAnswer = new ImageView();
+                    if (part.part() == null){
+                        FileInputStream stream;
+                        try {
+                            stream = new FileInputStream("src/main/resources/leeg.png");
+                            Image image = new Image(stream);
+                            imageAnswer.setImage(image);
+                            imageAnswer.setUserData(null);
+                        } catch (FileNotFoundException e) {
+                            new ErrorDialog().display("bestand leeg kon niet gevonden worden");
+                            Platform.exit();
+                        }
+                    } else {
+                        imageAnswer.setImage((new Image(new ByteArrayInputStream(part.part()))));
+                        imageAnswer.setUserData(part.part());
+                    }
+
+                    imageAnswer.setOnMouseClicked(this::addImagePart);
+                    partsStyling(box, imageAnswer);
+                    loadParts();
+                    selectCorrect();
+                }
             }
+        } catch (DataAccesException e) {
+            new ErrorDialog().display(e.getMessage());
+            Platform.exit();
         }
+
     }
 
 

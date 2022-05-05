@@ -7,6 +7,7 @@ import be.ugent.flash.beheerdersinterface.questionparts.Partsloader;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Question;
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -80,6 +81,7 @@ public class BeheerdersinterfaceController extends MenuOpties {
             remove.disableProperty().bind(contents.getSelectionModel().selectedItemProperty().isNull());
         } catch (DataAccesException e) {
             new ErrorDialog().display(e.getMessage());
+            Platform.exit();
         }
 
     }

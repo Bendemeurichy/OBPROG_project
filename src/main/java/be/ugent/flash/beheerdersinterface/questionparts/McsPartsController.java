@@ -2,10 +2,12 @@ package be.ugent.flash.beheerdersinterface.questionparts;
 
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceCompanion;
 import be.ugent.flash.beheerdersinterface.BeheerdersinterfaceController;
+import be.ugent.flash.beheerdersinterface.popups.ErrorDialog;
 import be.ugent.flash.jdbc.DataAccesException;
 import be.ugent.flash.jdbc.JDBCDataAccesProvider;
 import be.ugent.flash.jdbc.Parts;
 import be.ugent.flash.jdbc.Question;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -23,24 +25,25 @@ public class McsPartsController extends MultipleChoicePartsController {
         ArrayList<Parts> initialP;
         try {
             initialP = new JDBCDataAccesProvider("jdbc:sqlite:" + db.getPath()).getDataAccessContext().getPartDAO().specificPart(question.question_id());
-        } catch (DataAccesException e) {
-            throw new RuntimeException(e);
-        }
-        if (initialP.isEmpty()){ //in new question, maak hashmap met default value voor antwoord;
-            CheckBox box = new CheckBox();
-            box.setSelected(true);
-            TextArea answerArea = new TextArea();
-            partsStyling(box, answerArea);
-            new BeheerdersinterfaceCompanion().addParts(new Parts(question.question_id(), ""), db);
-            loadParts();
-        } else {
-            for (Parts part : initialP) {
+            if (initialP.isEmpty()){ //in new question, maak hashmap met default value voor antwoord;
                 CheckBox box = new CheckBox();
-                TextArea answerArea = new TextArea(part.part());
+                box.setSelected(true);
+                TextArea answerArea = new TextArea();
                 partsStyling(box, answerArea);
+                new BeheerdersinterfaceCompanion().addParts(new Parts(question.question_id(), ""), db);
                 loadParts();
-                selectCorrect();
+            } else {
+                for (Parts part : initialP) {
+                    CheckBox box = new CheckBox();
+                    TextArea answerArea = new TextArea(part.part());
+                    partsStyling(box, answerArea);
+                    loadParts();
+                    selectCorrect();
+                }
             }
+        } catch (DataAccesException e) {
+            new ErrorDialog().display(e.getMessage());
+            Platform.exit();
         }
 
     }

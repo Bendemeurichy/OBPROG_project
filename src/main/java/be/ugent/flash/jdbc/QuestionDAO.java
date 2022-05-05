@@ -3,13 +3,13 @@ package be.ugent.flash.jdbc;
 import java.util.ArrayList;
 
 public interface QuestionDAO {
-    ArrayList<Question> allQuestionData();
+    ArrayList<Question> allQuestionData() throws DataAccesException;
 
-    Question specificQuestion(int id);
+    Question specificQuestion(int id) throws DataAccesException;
 
-    void removeQuestion(int questionId);
+    void removeQuestion(int questionId) throws DataAccesException;
 
-    void updateQuestion(Question question);
+    void updateQuestion(Question question) throws DataAccesException;
 
-    Question addQuestion(String text, String s, String s1);
+    Question addQuestion(String text, String s, String s1) throws DataAccesException;
 }
