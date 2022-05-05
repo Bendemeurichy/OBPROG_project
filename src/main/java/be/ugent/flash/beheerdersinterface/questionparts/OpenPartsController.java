@@ -20,6 +20,7 @@ public class OpenPartsController extends QuestionPartsController {
         this.interfacecontroller = interfacecontroller;
         if (question.correct_answer().equals("") || question.correct_answer().equals(0 + "")){
             new BeheerdersinterfaceCompanion().addParts(new Parts(question.question_id(), ""), file);
+            answerfield.setText("");
         } else {
             answerfield.setText(question.correct_answer());
             answerfield.setOnKeyTyped(this::updatechange);
